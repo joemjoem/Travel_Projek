@@ -15,8 +15,10 @@
     "@iconify-json/simple-icons": "^1.2.80",
     "@nuxt/content": "^3.13.0",
     "@nuxt/ui": "^4.7.1",
+    "@vueuse/core": "^14.3.0",
     "nuxt": "^4.4.2",
-    "tailwindcss": "^4.2.4"
+    "tailwindcss": "^4.2.4",
+    "vue3-carousel": "^0.17.0"
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.15.2",
