@@ -3,12 +3,15 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
     '@nuxt/ui',
-    '@nuxt/content',
+    // '@nuxt/content',
     '@nuxt/image',
     '@nuxt/fonts',
     '@nuxtjs/sitemap'
   ],
-
+  ui: {
+    primary: 'emerald',
+    gray: 'slate'
+  },
   site: {
     url: 'https://nama-web-travel-kamu.com',
     name: 'Travel Agent Indonesia',
