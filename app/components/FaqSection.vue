@@ -1,63 +1,55 @@
 <template>
-  <section class="py-20 bg-white dark:bg-slate-900">
-    <div class="container mx-auto px-4 max-w-3xl">
-      <h2
-        class="text-2xl md:text-3xl font-bold text-center text-slate-900 dark:text-white mb-12"
-      >
+  <section class="py-16 bg-white">
+    <div class="max-w-3xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center text-slate-800 mb-10">
         FAQ SIWAKERTA Travel
       </h2>
 
       <UAccordion
-        :items="faqItems"
+        :items="faqs"
         :ui="{
-          wrapper: 'flex flex-col gap-3',
-          item: 'p-4 bg-slate-50 dark:bg-slate-800 rounded-lg',
+          wrapper: 'flex flex-col gap-3 w-full',
+          item: {
+            base: 'w-full rounded-lg overflow-hidden border border-slate-200',
+            padding: 'p-0',
+            color: 'text-slate-600',
+            size: 'text-sm',
+          },
+          default: {
+            activeClass: 'text-emerald-400',
+            inactiveClass: 'text-slate-300',
+          },
+          trigger:
+            'w-full flex items-center justify-between px-5 py-4 bg-slate-800 text-white font-semibold text-sm text-left hover:bg-slate-700 transition-colors duration-200',
+          content: 'px-5 py-4 text-slate-600 text-sm leading-relaxed bg-white',
+          arrow: 'text-current w-5 h-5 flex-shrink-0',
         }"
-      >
-        <template #default="{ item, open }">
-          <UButton
-            color="slate"
-            variant="ghost"
-            class="w-full flex justify-between items-center p-4 border border-slate-200 dark:border-slate-700 rounded-lg"
-          >
-            <span
-              class="font-semibold text-left text-slate-900 dark:text-white text-sm"
-              >{{ item.label }}</span
-            >
-            <UIcon
-              :name="
-                open ? 'i-heroicons-chevron-up' : 'i-heroicons-chevron-down'
-              "
-              class="w-5 h-5 text-slate-500"
-            />
-          </UButton>
-        </template>
-        <template #content="{ item }">
-          <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-            {{ item.content }}
-          </p>
-        </template>
-      </UAccordion>
+      />
     </div>
   </section>
 </template>
 
-<script setup>
-const faqItems = [
+<script setup lang="ts">
+const faqs = [
   {
-    label: "Daerah mana saja yang dijangkau?",
+    label: "Dapat Fasilitas apa saja diperjalanan?",
     content:
-      "Layanan utama kami melayani seluruh area Jawa Timur, khususnya rute Surabaya, Malang, Jember, Banyuwangi, serta carter drop ke luar provinsi sesuai kesepakatan.",
+      "Kakak bakal dapat unit Innova Reborn yang bersih dan wangi, Full AC, Snack Box gratis (roti/kue), dan Air Mineral 330ml di tiap kursi.",
   },
   {
-    label: "Apakah tiket sudah termasuk tol?",
+    label: "Apakah boleh bawa banyak koper?",
     content:
-      "Untuk layanan Carter Drop, biaya tol biasanya disesuaikan berdasarkan kesepakatan paket, sedangkan tiket reguler melewati jalur utama non-tol kecuali diminta seluruh penumpang.",
+      "Untuk armada Avanza dan Innova Reborn, kami menerima maksimal 2 koper ukuran sedang per penumpang. Untuk Hiace, kapasitas bagasi lebih besar dan fleksibel.",
   },
   {
-    label: "Bagaimana jika saya ingin membatalkan perjalanan?",
+    label: "Apakah bisa antar ke terminal 1 atau terminal 2 Juanda?",
     content:
-      "Pembatalan dapat dilakukan selambat-lambatnya 6 jam sebelum keberangkatan dengan menghubungi CS kami agar tidak dikenakan biaya charge operasional.",
+      "Ya, kami bisa mengantar ke Terminal 1 maupun Terminal 2 Juanda sesuai maskapai penerbangan Anda. Harap informasikan terminal tujuan saat pemesanan.",
+  },
+  {
+    label: "Apakah bisa jemput langsung ke rumah?",
+    content:
+      "Tentu! Layanan door-to-door adalah salah satu keunggulan kami. Driver akan datang langsung ke alamat penjemputan yang Anda tentukan.",
   },
 ];
 </script>

@@ -8,9 +8,14 @@
       </h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-        <UCard class="overflow-hidden shadow-md">
+        <UCard
+          class="overflow-hidden shadow-md"
+          :ui="{
+            header: 'p-0 sm:p-0',
+          }"
+        >
           <template #header>
-            <div class="bg-slate-900 text-white -m-4 p-4">
+            <div class="bg-slate-900 text-white p-4">
               <h3 class="font-bold text-lg">Paket Reguler</h3>
               <p class="text-xs text-slate-400">
                 Antar jemput rute langsung terjadwal
@@ -34,9 +39,14 @@
           </div>
         </UCard>
 
-        <UCard class="overflow-hidden shadow-md">
+        <UCard
+          class="overflow-hidden shadow-md"
+          :ui="{
+            header: 'p-0 sm:p-0',
+          }"
+        >
           <template #header>
-            <div class="bg-slate-900 text-white -m-4 p-4">
+            <div class="bg-slate-900 text-white p-4">
               <h3 class="font-bold text-lg">Carter Drop</h3>
               <p class="text-xs text-slate-400">
                 Sewa privat sekali jalan gratis bensin dan supir

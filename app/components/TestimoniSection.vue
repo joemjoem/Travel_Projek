@@ -1,100 +1,162 @@
-<!-- app/components/Testimonials.vue -->
 <template>
-  <section class="py-20 bg-white dark:bg-slate-950">
-    <div class="container mx-auto px-4 max-w-5xl">
-      <!-- Judul Section -->
-      <div class="text-center mb-12">
-        <h2
-          class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-wide"
-        >
-          Testimoni Pelanggan
-        </h2>
-      </div>
+  <section class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <!-- Heading -->
+      <h2 class="text-3xl font-bold text-center text-slate-800 mb-10">
+        Testimoni Pelanggan
+      </h2>
 
-      <!-- Kontainer Abu-abu Pembungkus (Sesuai Desain Figma) -->
-      <div
-        class="bg-slate-100 dark:bg-slate-900 rounded-2xl p-6 md:p-10 relative"
-      >
-        <!-- 
-          SISTEM LAYOUT:
-          - Di Mobile/HP: Otomatis bisa di-scroll ke samping (flex flex-row overflow-x-auto)
-          - Di Desktop: Otomatis mengunci jadi 3 kolom sejajar pas (md:grid md:grid-cols-3)
-        -->
-        <div
-          class="flex flex-row overflow-x-auto md:grid md:grid-cols-3 gap-6 pb-4 md:pb-0 scrollbar-hide snap-x snap-mandatory"
-        >
+      <!-- Carousel Wrapper -->
+      <div class="relative">
+        <!-- Prev Button -->
+        <UButton
+          icon="i-lucide-chevron-left"
+          color="white"
+          variant="solid"
+          size="lg"
+          class="absolute -left-5 top-1/2 -translate-y-1/2 z-10 shadow-md"
+          :ui="{ rounded: 'rounded-full' }"
+          aria-label="Sebelumnya"
+          @click="prev"
+        />
+
+        <!-- Cards -->
+        <div class="overflow-hidden mx-6">
           <div
-            v-for="review in testimonials"
-            :key="review.name"
-            class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-md border border-slate-100 dark:border-slate-700 text-left flex flex-col justify-between min-h-[180px] min-w-[280px] md:min-w-0 w-full snap-center shrink-0"
+            class="flex transition-transform duration-500 ease-in-out"
+            :style="{
+              transform: `translateX(-${currentIndex * (100 / visibleCount)}%)`,
+            }"
           >
-            <!-- Identitas Pelanggan (Avatar & Nama) -->
-            <div class="flex items-center gap-3 mb-4">
-              <div
-                class="w-10 h-10 bg-slate-200 dark:bg-slate-700 rounded-full flex items-center justify-center text-[#0b1c3d] dark:text-slate-300"
-              >
-                <UIcon name="i-lucide-user" class="w-6 h-6" />
-              </div>
-              <h3
-                class="font-bold text-sm md:text-base text-slate-900 dark:text-white"
-              >
-                {{ review.name }}
-              </h3>
-            </div>
-
-            <!-- Isi Teks Review -->
-            <p
-              class="text-slate-600 dark:text-slate-300 text-xs md:text-sm italic leading-relaxed"
+            <div
+              v-for="(item, i) in testimonials"
+              :key="i"
+              class="flex-shrink-0 px-3"
+              :style="{ width: `${100 / visibleCount}%` }"
             >
-              "{{ review.text }}"
-            </p>
+              <UCard
+                class="h-full"
+                :ui="{
+                  base: 'h-full',
+                  background: 'bg-slate-50',
+                  ring: 'ring-1 ring-slate-200',
+                  shadow: 'shadow-sm',
+                  body: { padding: 'p-5' },
+                }"
+              >
+                <!-- Author -->
+                <div class="flex items-center gap-3 mb-4">
+                  <div
+                    class="w-9 h-9 rounded-full bg-slate-200 flex items-center justify-center flex-shrink-0"
+                  >
+                    <UIcon
+                      name="i-lucide-user"
+                      class="text-slate-500 w-5 h-5"
+                    />
+                  </div>
+                  <span class="font-semibold text-slate-800 text-sm">{{
+                    item.name
+                  }}</span>
+                </div>
+
+                <!-- Quote -->
+                <p class="text-slate-500 text-sm leading-relaxed italic">
+                  "{{ item.text }}"
+                </p>
+
+                <!-- Stars -->
+                <div class="flex gap-0.5 mt-4">
+                  <UIcon
+                    v-for="s in 5"
+                    :key="s"
+                    name="i-lucide-star"
+                    class="w-4 h-4 text-emerald-500"
+                  />
+                </div>
+              </UCard>
+            </div>
           </div>
         </div>
 
-        <!-- Tombol Navigasi Visual Dekoratif (Sesuai Desain Figma untuk Desktop) -->
-        <div class="hidden md:block">
-          <!-- Tombol Kiri -->
-          <button
-            class="absolute top-1/2 -left-4 transform -translate-y-1/2 bg-[#0b1c3d] text-white rounded-full w-9 h-9 flex items-center justify-center shadow-md hover:bg-[#162a54] transition"
-          >
-            <UIcon name="i-lucide-chevron-left" class="w-5 h-5" />
-          </button>
-          <!-- Tombol Kanan -->
-          <button
-            class="absolute top-1/2 -right-4 transform -translate-y-1/2 bg-[#0b1c3d] text-white rounded-full w-9 h-9 flex items-center justify-center shadow-md hover:bg-[#162a54] transition"
-          >
-            <UIcon name="i-lucide-chevron-right" class="w-5 h-5" />
-          </button>
-        </div>
+        <!-- Next Button -->
+        <UButton
+          icon="i-lucide-chevron-right"
+          color="white"
+          variant="solid"
+          size="lg"
+          class="absolute -right-5 top-1/2 -translate-y-1/2 z-10 shadow-md"
+          :ui="{ rounded: 'rounded-full' }"
+          aria-label="Berikutnya"
+          @click="next"
+        />
+      </div>
+
+      <!-- Dots -->
+      <div class="flex justify-center gap-2 mt-8">
+        <button
+          v-for="(_, i) in testimonials"
+          :key="i"
+          class="h-2 rounded-full transition-all duration-200"
+          :class="
+            i === currentIndex ? 'bg-emerald-500 w-5' : 'bg-slate-300 w-2'
+          "
+          :aria-label="`Testimoni ${i + 1}`"
+          @click="currentIndex = i"
+        />
       </div>
     </div>
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const testimonials = [
   {
     name: "Rendy",
-    text: "Sudah beberapa kali pakai Makuta Travel untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipun mengecewakan.",
+    text: "Sudah beberapa kali pakai Siwakerta Travel untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipin mengecewakan.",
   },
   {
     name: "Salam Rafi'i",
-    text: "Sudah beberapa kali pakai Makuta Travel untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipun mengecewakan.",
+    text: "Sudah beberapa kali pakai Siwakerta Travel untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipin mengecewakan.",
   },
   {
     name: "Susilo Adam's",
-    text: "Sudah beberapa kali pakai Makuta Travel untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipun mengecewakan.",
+    text: "Sudah beberapa kali pakai Siwakerta Travel untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipin mengecewakan.",
+  },
+  {
+    name: "Dewi Rahayu",
+    text: "Pelayanan sangat memuaskan, driver selalu on-time dan kendaraan bersih. Sangat direkomendasikan!",
+  },
+  {
+    name: "Budi Santoso",
+    text: "Harga terjangkau dan pelayanan prima. Sudah langganan sejak 2022 dan tidak pernah kecewa.",
   },
 ];
-</script>
 
-<style scoped>
-/* Menghilangkan scrollbar default browser agar perpindahan swipe di HP terlihat mulus */
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-</style>
+const currentIndex = ref(0);
+const visibleCount = ref(3);
+
+const updateVisibleCount = () => {
+  if (window.innerWidth < 640) visibleCount.value = 1;
+  else if (window.innerWidth < 1024) visibleCount.value = 2;
+  else visibleCount.value = 3;
+};
+
+const maxIndex = computed(() => testimonials.length - visibleCount.value);
+
+const prev = () => {
+  currentIndex.value = Math.max(0, currentIndex.value - 1);
+};
+
+const next = () => {
+  currentIndex.value = Math.min(maxIndex.value, currentIndex.value + 1);
+};
+
+onMounted(() => {
+  updateVisibleCount();
+  window.addEventListener("resize", updateVisibleCount);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", updateVisibleCount);
+});
+</script>
