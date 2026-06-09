@@ -25,10 +25,6 @@ export default defineNuxtConfig({
     name: 'Travel Agent Indonesia',
     trailingSlash: true
   },
-  ui: {
-    primary: 'emerald',
-    gray: 'slate'
-  },
 
   routeRules: {
     '/': { prerender: true }
