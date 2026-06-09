@@ -17,27 +17,39 @@
       <div
         class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300"
       >
-        <a href="#home" class="hover:text-emerald-400 transition">Home</a>
-        <a href="#layanan" class="hover:text-emerald-400 transition"
-          >Layanan Travel</a
-        >
-        <a href="#tentang" class="hover:text-emerald-400 transition"
-          >Tentang Kami</a
-        >
-        <a href="#kontak" class="hover:text-emerald-400 transition">Kontak</a>
+        <a
+          href="#home"
+          class="hover:text-emerald-400 transition"
+        >Home</a>
+        <a
+          href="#layanan"
+          class="hover:text-emerald-400 transition"
+        >Layanan Travel</a>
+        <a
+          href="#tentang"
+          class="hover:text-emerald-400 transition"
+        >Tentang Kami</a>
+        <a
+          href="#kontak"
+          class="hover:text-emerald-400 transition"
+        >Kontak</a>
       </div>
 
       <!-- Desktop CTA -->
       <div class="hidden md:block">
-        <UButton color="emerald" variant="ghost" icon="i-heroicons-phone"
-          >CS Resmi</UButton
+        <UButton
+          color="primary"
+          variant="ghost"
+          icon="i-heroicons-phone"
         >
+          CS Resmi
+        </UButton>
       </div>
 
       <!-- Hamburger (mobile only) -->
       <UButton
         class="md:hidden"
-        color="gray"
+        color="neutral"
         variant="ghost"
         :icon="menuOpen ? 'i-lucide-x' : 'i-lucide-menu'"
         aria-label="Toggle menu"
@@ -73,7 +85,7 @@
         </div>
         <div class="mt-3 pt-3 border-t border-slate-800">
           <UButton
-            color="emerald"
+            color="primary"
             variant="ghost"
             icon="i-heroicons-phone"
             class="w-full justify-center"
@@ -87,19 +99,19 @@
 </template>
 
 <script setup lang="ts">
-const menuOpen = ref(false);
+const menuOpen = ref(false)
 
 const navLinks = [
-  { href: "#home", label: "Home" },
-  { href: "#layanan", label: "Layanan Travel" },
-  { href: "#tentang", label: "Tentang Kami" },
-  { href: "#kontak", label: "Kontak" },
-];
+  { href: '#home', label: 'Home' },
+  { href: '#layanan', label: 'Layanan Travel' },
+  { href: '#tentang', label: 'Tentang Kami' },
+  { href: '#kontak', label: 'Kontak' }
+]
 
 // Tutup menu saat resize ke desktop
 onMounted(() => {
-  window.addEventListener("resize", () => {
-    if (window.innerWidth >= 768) menuOpen.value = false;
-  });
-});
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 768) menuOpen.value = false
+  })
+})
 </script>

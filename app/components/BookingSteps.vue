@@ -22,7 +22,10 @@
           </div>
 
           <div class="text-[#0b1c3d] mb-3 flex items-center justify-center">
-            <UIcon :name="step.icon" class="w-8 h-8" />
+            <UIcon
+              :name="step.icon"
+              class="w-8 h-8"
+            />
           </div>
 
           <h3 class="font-bold text-base md:text-lg text-slate-900 mb-2">
@@ -42,24 +45,24 @@
 const bookingSteps = [
   {
     number: 1,
-    icon: "i-lucide-message-square", // Alternatif ikon chat WhatsApp
-    title: "Chat WhatsApp",
+    icon: 'i-lucide-message-square', // Alternatif ikon chat WhatsApp
+    title: 'Chat WhatsApp',
     description:
-      "Kirim nama, alamat jemput lengkap, jumlah penumpang, dan jadwal ke admin kami.",
+      'Kirim nama, alamat jemput lengkap, jumlah penumpang, dan jadwal ke admin kami.'
   },
   {
     number: 2,
-    icon: "i-lucide-check-square", // Ikon checklist konfirmasi
-    title: "Konfirmasi Booking",
+    icon: 'i-lucide-check-square', // Ikon checklist konfirmasi
+    title: 'Konfirmasi Booking',
     description:
-      "Admin konfirmasi ketersediaan armada dan detail perjalanan Anda segera.",
+      'Admin konfirmasi ketersediaan armada dan detail perjalanan Anda segera.'
   },
   {
     number: 3,
-    icon: "i-lucide-car", // Ikon mobil siap berangkat
-    title: "Siap Berangkat",
+    icon: 'i-lucide-car', // Ikon mobil siap berangkat
+    title: 'Siap Berangkat',
     description:
-      "Driver datang tepat waktu ke alamat Anda. Bayar saat naik atau via transfer.",
-  },
-];
+      'Driver datang tepat waktu ke alamat Anda. Bayar saat naik atau via transfer.'
+  }
+]
 </script>

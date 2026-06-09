@@ -8,20 +8,23 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxtjs/sitemap'
   ],
-  ui: {
-    primary: 'emerald',
-    gray: 'slate'
+  devtools: {
+    enabled: true
   },
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: 'id' // Sangat penting agar Google tahu target bahasa web travel kamu
+      }
+    }
+  },
+
+  css: ['~/assets/css/main.css'],
   site: {
     url: 'https://nama-web-travel-kamu.com',
     name: 'Travel Agent Indonesia',
     trailingSlash: true
   },
-  devtools: {
-    enabled: true
-  },
-
-  css: ['~/assets/css/main.css'],
 
   routeRules: {
     '/': { prerender: true }
@@ -34,13 +37,6 @@ export default defineNuxtConfig({
       stylistic: {
         commaDangle: 'never',
         braceStyle: '1tbs'
-      }
-    }
-  },
-  app: {
-    head: {
-      htmlAttrs: {
-        lang: 'id' // Sangat penting agar Google tahu target bahasa web travel kamu
       }
     }
   }

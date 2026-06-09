@@ -1,5 +1,8 @@
 <template>
-  <section id="layanan" class="py-20 bg-white dark:bg-slate-900">
+  <section
+    id="layanan"
+    class="py-20 bg-white dark:bg-slate-900"
+  >
     <div class="container mx-auto px-4">
       <div class="text-center max-w-xl mx-auto mb-16">
         <h2
@@ -24,7 +27,10 @@
             <div
               class="w-8 h-8 bg-slate-900 text-white rounded flex items-center justify-center"
             >
-              <UIcon name="i-heroicons-check" class="w-5 h-5" />
+              <UIcon
+                name="i-heroicons-check"
+                class="w-5 h-5"
+              />
             </div>
           </div>
           <div>
@@ -46,20 +52,20 @@
 <script setup>
 const features = [
   {
-    title: "Travel Reguler",
-    desc: "Layanan antar jemput penumpang rute tetap antar kota secara aman, terjadwal, dan nyaman.",
+    title: 'Travel Reguler',
+    desc: 'Layanan antar jemput penumpang rute tetap antar kota secara aman, terjadwal, dan nyaman.'
   },
   {
-    title: "Carter Drop",
-    desc: "Sewa mobil pribadi sekaligus driver untuk kebutuhan drop off satu kali jalan luar/dalam kota.",
+    title: 'Carter Drop',
+    desc: 'Sewa mobil pribadi sekaligus driver untuk kebutuhan drop off satu kali jalan luar/dalam kota.'
   },
   {
-    title: "Kirim Paket",
-    desc: "Pengiriman paket kilat semalam sampai menggunakan jaringan armada travel operasional kami.",
+    title: 'Kirim Paket',
+    desc: 'Pengiriman paket kilat semalam sampai menggunakan jaringan armada travel operasional kami.'
   },
   {
-    title: "Wisata / Tour",
-    desc: "Paket perjalanan wisata keliling destinasi populer dengan fasilitas lengkap tanpa ribet.",
-  },
-];
+    title: 'Wisata / Tour',
+    desc: 'Paket perjalanan wisata keliling destinasi populer dengan fasilitas lengkap tanpa ribet.'
+  }
+]
 </script>
