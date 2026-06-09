@@ -7,102 +7,104 @@
       </h2>
 
       <!-- Carousel Wrapper -->
-      <div class="relative">
-        <!-- Prev Button -->
-        <UButton
-          icon="i-lucide-chevron-left"
-          color="white"
-          variant="solid"
-          size="lg"
-          class="absolute -left-5 top-1/2 -translate-y-1/2 z-10 shadow-md"
-          :ui="{ rounded: 'rounded-full' }"
-          aria-label="Sebelumnya"
-          @click="prev"
-        />
+      <div class="py-6 px-8 rounded-lg bg-gray-100">
+        <div class="relative">
+          <!-- Prev Button -->
+          <UButton
+            icon="i-lucide-chevron-left"
+            color="white"
+            variant="solid"
+            size="lg"
+            class="absolute -left-5 top-1/2 -translate-y-1/2 z-10 shadow-md bg-white"
+            :ui="{ rounded: 'rounded-full' }"
+            aria-label="Sebelumnya"
+            @click="prev"
+          />
 
-        <!-- Cards -->
-        <div class="overflow-hidden mx-6">
-          <div
-            class="flex transition-transform duration-500 ease-in-out"
-            :style="{
-              transform: `translateX(-${currentIndex * (100 / visibleCount)}%)`,
-            }"
-          >
+          <!-- Cards -->
+          <div class="overflow-hidden mx-6">
             <div
-              v-for="(item, i) in testimonials"
-              :key="i"
-              class="flex-shrink-0 px-3"
-              :style="{ width: `${100 / visibleCount}%` }"
+              class="flex transition-transform duration-500 ease-in-out"
+              :style="{
+                transform: `translateX(-${currentIndex * (100 / visibleCount)}%)`,
+              }"
             >
-              <UCard
-                class="h-full"
-                :ui="{
-                  base: 'h-full',
-                  background: 'bg-slate-50',
-                  ring: 'ring-1 ring-slate-200',
-                  shadow: 'shadow-sm',
-                  body: { padding: 'p-5' },
-                }"
+              <div
+                v-for="(item, i) in testimonials"
+                :key="i"
+                class="flex-shrink-0 px-3"
+                :style="{ width: `${100 / visibleCount}%` }"
               >
-                <!-- Author -->
-                <div class="flex items-center gap-3 mb-4">
-                  <div
-                    class="w-9 h-9 rounded-full bg-slate-200 flex items-center justify-center flex-shrink-0"
-                  >
+                <UCard
+                  class="h-full"
+                  :ui="{
+                    base: 'h-full',
+                    background: 'bg-slate-50',
+                    ring: 'ring-1 ring-slate-200',
+                    shadow: 'shadow-sm',
+                    body: { padding: 'p-5' },
+                  }"
+                >
+                  <!-- Author -->
+                  <div class="flex items-center gap-3 mb-4">
+                    <div
+                      class="w-9 h-9 rounded-full bg-slate-200 flex items-center justify-center flex-shrink-0"
+                    >
+                      <UIcon
+                        name="i-lucide-user"
+                        class="text-slate-500 w-5 h-5"
+                      />
+                    </div>
+                    <span class="font-semibold text-slate-800 text-sm">{{
+                      item.name
+                    }}</span>
+                  </div>
+
+                  <!-- Quote -->
+                  <p class="text-slate-500 text-sm leading-relaxed italic">
+                    "{{ item.text }}"
+                  </p>
+
+                  <!-- Stars -->
+                  <div class="flex gap-0.5 mt-4">
                     <UIcon
-                      name="i-lucide-user"
-                      class="text-slate-500 w-5 h-5"
+                      v-for="s in 5"
+                      :key="s"
+                      name="i-lucide-star"
+                      class="w-4 h-4 text-emerald-500"
                     />
                   </div>
-                  <span class="font-semibold text-slate-800 text-sm">{{
-                    item.name
-                  }}</span>
-                </div>
-
-                <!-- Quote -->
-                <p class="text-slate-500 text-sm leading-relaxed italic">
-                  "{{ item.text }}"
-                </p>
-
-                <!-- Stars -->
-                <div class="flex gap-0.5 mt-4">
-                  <UIcon
-                    v-for="s in 5"
-                    :key="s"
-                    name="i-lucide-star"
-                    class="w-4 h-4 text-emerald-500"
-                  />
-                </div>
-              </UCard>
+                </UCard>
+              </div>
             </div>
           </div>
+
+          <!-- Next Button -->
+          <UButton
+            icon="i-lucide-chevron-right"
+            color="white"
+            variant="solid"
+            size="lg"
+            class="absolute -right-5 top-1/2 -translate-y-1/2 z-10 shadow-md bg-white"
+            :ui="{ rounded: 'rounded-full' }"
+            aria-label="Berikutnya"
+            @click="next"
+          />
         </div>
 
-        <!-- Next Button -->
-        <UButton
-          icon="i-lucide-chevron-right"
-          color="white"
-          variant="solid"
-          size="lg"
-          class="absolute -right-5 top-1/2 -translate-y-1/2 z-10 shadow-md"
-          :ui="{ rounded: 'rounded-full' }"
-          aria-label="Berikutnya"
-          @click="next"
-        />
-      </div>
-
-      <!-- Dots -->
-      <div class="flex justify-center gap-2 mt-8">
-        <button
-          v-for="(_, i) in testimonials"
-          :key="i"
-          class="h-2 rounded-full transition-all duration-200"
-          :class="
-            i === currentIndex ? 'bg-emerald-500 w-5' : 'bg-slate-300 w-2'
-          "
-          :aria-label="`Testimoni ${i + 1}`"
-          @click="currentIndex = i"
-        />
+        <!-- Dots -->
+        <div class="flex justify-center gap-2 mt-8">
+          <button
+            v-for="(_, i) in testimonials"
+            :key="i"
+            class="h-2 rounded-full transition-all duration-200"
+            :class="
+              i === currentIndex ? 'bg-emerald-500 w-5' : 'bg-slate-300 w-2'
+            "
+            :aria-label="`Testimoni ${i + 1}`"
+            @click="currentIndex = i"
+          />
+        </div>
       </div>
     </div>
   </section>
