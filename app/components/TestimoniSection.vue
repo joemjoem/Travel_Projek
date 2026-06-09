@@ -26,7 +26,7 @@
             <div
               class="flex transition-transform duration-500 ease-in-out"
               :style="{
-                transform: `translateX(-${currentIndex * (100 / visibleCount)}%)`,
+                transform: `translateX(-${currentIndex * (100 / visibleCount)}%)`
               }"
             >
               <div
@@ -42,7 +42,7 @@
                     background: 'bg-slate-50',
                     ring: 'ring-1 ring-slate-200',
                     shadow: 'shadow-sm',
-                    body: { padding: 'p-5' },
+                    body: { padding: 'p-5' }
                   }"
                 >
                   <!-- Author -->
@@ -113,52 +113,52 @@
 <script setup lang="ts">
 const testimonials = [
   {
-    name: "Rendy",
-    text: "Sudah beberapa kali pakai Siwakerta Travel untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipin mengecewakan.",
+    name: 'Rendy',
+    text: 'Sudah beberapa kali pakai Siwakerta Travel untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipin mengecewakan.'
   },
   {
-    name: "Salam Rafi'i",
-    text: "Sudah beberapa kali pakai Siwakerta Travel untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipin mengecewakan.",
+    name: 'Salam Rafi\'i',
+    text: 'Sudah beberapa kali pakai Siwakerta Travel untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipin mengecewakan.'
   },
   {
-    name: "Susilo Adam's",
-    text: "Sudah beberapa kali pakai Siwakerta Travel untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipin mengecewakan.",
+    name: 'Susilo Adam\'s',
+    text: 'Sudah beberapa kali pakai Siwakerta Travel untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipin mengecewakan.'
   },
   {
-    name: "Dewi Rahayu",
-    text: "Pelayanan sangat memuaskan, driver selalu on-time dan kendaraan bersih. Sangat direkomendasikan!",
+    name: 'Dewi Rahayu',
+    text: 'Pelayanan sangat memuaskan, driver selalu on-time dan kendaraan bersih. Sangat direkomendasikan!'
   },
   {
-    name: "Budi Santoso",
-    text: "Harga terjangkau dan pelayanan prima. Sudah langganan sejak 2022 dan tidak pernah kecewa.",
-  },
-];
+    name: 'Budi Santoso',
+    text: 'Harga terjangkau dan pelayanan prima. Sudah langganan sejak 2022 dan tidak pernah kecewa.'
+  }
+]
 
-const currentIndex = ref(0);
-const visibleCount = ref(3);
+const currentIndex = ref(0)
+const visibleCount = ref(3)
 
 const updateVisibleCount = () => {
-  if (window.innerWidth < 640) visibleCount.value = 1;
-  else if (window.innerWidth < 1024) visibleCount.value = 2;
-  else visibleCount.value = 3;
-};
+  if (window.innerWidth < 640) visibleCount.value = 1
+  else if (window.innerWidth < 1024) visibleCount.value = 2
+  else visibleCount.value = 3
+}
 
-const maxIndex = computed(() => testimonials.length - visibleCount.value);
+const maxIndex = computed(() => testimonials.length - visibleCount.value)
 
 const prev = () => {
-  currentIndex.value = Math.max(0, currentIndex.value - 1);
-};
+  currentIndex.value = Math.max(0, currentIndex.value - 1)
+}
 
 const next = () => {
-  currentIndex.value = Math.min(maxIndex.value, currentIndex.value + 1);
-};
+  currentIndex.value = Math.min(maxIndex.value, currentIndex.value + 1)
+}
 
 onMounted(() => {
-  updateVisibleCount();
-  window.addEventListener("resize", updateVisibleCount);
-});
+  updateVisibleCount()
+  window.addEventListener('resize', updateVisibleCount)
+})
 
 onUnmounted(() => {
-  window.removeEventListener("resize", updateVisibleCount);
-});
+  window.removeEventListener('resize', updateVisibleCount)
+})
 </script>

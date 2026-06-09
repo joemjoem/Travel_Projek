@@ -7,7 +7,10 @@
         <div
           class="p-2 bg-emerald-50 text-emerald-600 rounded-lg dark:bg-emerald-950/50 dark:text-emerald-400"
         >
-          <UIcon name="i-heroicons-ticket" class="w-6 h-6" />
+          <UIcon
+            name="i-heroicons-ticket"
+            class="w-6 h-6"
+          />
         </div>
         <div>
           <h3 class="text-xl font-bold text-slate-900 dark:text-white">
@@ -27,22 +30,31 @@
         v-for="tab in tabs"
         :key="tab.id"
         type="button"
-        @click="activeTab = tab.id"
         :class="[
           'py-2.5 text-xs md:text-sm font-semibold rounded-lg transition-all duration-200 flex flex-col sm:flex-row items-center justify-center gap-2',
           activeTab === tab.id
             ? 'bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-400 shadow-sm'
-            : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-300',
+            : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-300'
         ]"
+        @click="activeTab = tab.id"
       >
-        <UIcon :name="tab.icon" class="w-4 h-4 md:w-5 md:h-5" />
+        <UIcon
+          :name="tab.icon"
+          class="w-4 h-4 md:w-5 md:h-5"
+        />
         <span>{{ tab.name }}</span>
       </button>
     </div>
 
-    <form @submit.prevent="handleSubmit" class="space-y-5">
+    <form
+      class="space-y-5"
+      @submit.prevent="handleSubmit"
+    >
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <UFormGroup label="Nama Lengkap" required>
+        <UFormGroup
+          label="Nama Lengkap"
+          required
+        >
           <UInput
             v-model="formData.name"
             placeholder="Masukkan nama sesuai KTP"
@@ -51,7 +63,10 @@
           />
         </UFormGroup>
 
-        <UFormGroup label="Tanggal Perjalanan" required>
+        <UFormGroup
+          label="Tanggal Perjalanan"
+          required
+        >
           <UInput
             v-model="formData.date"
             type="date"
@@ -61,13 +76,16 @@
         </UFormGroup>
       </div>
 
-      <hr class="border-slate-100 dark:border-slate-800my-2" />
+      <hr class="border-slate-100 dark:border-slate-800my-2">
 
       <div
         v-if="activeTab === 'reguler'"
         class="grid grid-cols-1 md:grid-cols-3 gap-4 animate-fade-in"
       >
-        <UFormGroup label="Kota Asal" required>
+        <UFormGroup
+          label="Kota Asal"
+          required
+        >
           <UInput
             v-model="formData.origin"
             placeholder="Contoh: Surabaya"
@@ -75,7 +93,10 @@
             size="md"
           />
         </UFormGroup>
-        <UFormGroup label="Kota Tujuan" required>
+        <UFormGroup
+          label="Kota Tujuan"
+          required
+        >
           <UInput
             v-model="formData.destination"
             placeholder="Contoh: Jember"
@@ -83,7 +104,10 @@
             size="md"
           />
         </UFormGroup>
-        <UFormGroup label="Jumlah Penumpang" required>
+        <UFormGroup
+          label="Jumlah Penumpang"
+          required
+        >
           <UInput
             v-model.number="formData.passengers"
             type="number"
@@ -98,21 +122,27 @@
         v-if="activeTab === 'carter'"
         class="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in"
       >
-        <UFormGroup label="Pilihan Armada Mobil" required>
+        <UFormGroup
+          label="Pilihan Armada Mobil"
+          required
+        >
           <USelectMenu
             v-model="formData.vehicle"
             :options="[
               'Avanza / Xenia',
               'Innova Reborn / Zenix',
               'Hiace Commuter',
-              'Hiace Premio',
+              'Hiace Premio'
             ]"
             placeholder="Pilih armada mobil"
             icon="i-heroicons-truck"
             size="md"
           />
         </UFormGroup>
-        <UFormGroup label="Jumlah Penumpang" required>
+        <UFormGroup
+          label="Jumlah Penumpang"
+          required
+        >
           <UInput
             v-model.number="formData.passengers"
             type="number"
@@ -127,20 +157,26 @@
         v-if="activeTab === 'tour'"
         class="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in"
       >
-        <UFormGroup label="Pilihan Destinasi Wisata" required>
+        <UFormGroup
+          label="Pilihan Destinasi Wisata"
+          required
+        >
           <USelectMenu
             v-model="formData.tourPackage"
             :options="[
               'Paket Wisata Bromo Sunrise',
               'Paket Tour Kawah Ijen',
-              'City Tour Malang-Batu 2D1N',
+              'City Tour Malang-Batu 2D1N'
             ]"
             placeholder="Pilih paket tour"
             icon="i-heroicons-globe-asia-australia"
             size="md"
           />
         </UFormGroup>
-        <UFormGroup label="Jumlah Peserta Tur" required>
+        <UFormGroup
+          label="Jumlah Peserta Tur"
+          required
+        >
           <UInput
             v-model.number="formData.passengers"
             type="number"
@@ -167,47 +203,47 @@
 </template>
 
 <script setup>
-const { sendBooking } = useWhatsApp();
+const { sendBooking } = useWhatsApp()
 
-const activeTab = ref("reguler");
+const activeTab = ref('reguler')
 
 const tabs = [
   {
-    id: "reguler",
-    name: "Travel Reguler",
-    icon: "i-heroicons-arrows-right-left",
+    id: 'reguler',
+    name: 'Travel Reguler',
+    icon: 'i-heroicons-arrows-right-left'
   },
-  { id: "carter", name: "Carter Drop", icon: "i-heroicons-truck" },
-  { id: "tour", name: "Paket Tour", icon: "i-heroicons-globe-asia-australia" },
-];
+  { id: 'carter', name: 'Carter Drop', icon: 'i-heroicons-truck' },
+  { id: 'tour', name: 'Paket Tour', icon: 'i-heroicons-globe-asia-australia' }
+]
 
 // State Form tunggal (Single Source of Truth)
 const formData = ref({
-  name: "",
-  type: "reguler",
-  date: "",
+  name: '',
+  type: 'reguler',
+  date: '',
   passengers: 1,
-  origin: "",
-  destination: "",
+  origin: '',
+  destination: '',
   vehicle: undefined,
-  tourPackage: undefined,
-});
+  tourPackage: undefined
+})
 
 // Ketika tab berganti, otomatis sesuaikan tipe layanannya
 watch(activeTab, (newTab) => {
-  formData.value.type = newTab;
-});
+  formData.value.type = newTab
+})
 
 const handleSubmit = () => {
   // Validasi dasar
   if (!formData.value.name || !formData.value.date) {
-    alert("Mohon lengkapi Nama dan Tanggal Perjalanan terlebih dahulu!");
-    return;
+    alert('Mohon lengkapi Nama dan Tanggal Perjalanan terlebih dahulu!')
+    return
   }
 
   // Eksekusi kirim data form lewat WhatsApp
-  sendBooking(formData.value);
-};
+  sendBooking(formData.value)
+}
 </script>
 
 <style scoped>

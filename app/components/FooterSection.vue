@@ -24,22 +24,28 @@
         </h4>
         <ul class="text-xs space-y-2">
           <li>
-            <a href="#home" class="hover:text-emerald-400 transition">Home</a>
+            <a
+              href="#home"
+              class="hover:text-emerald-400 transition"
+            >Home</a>
           </li>
           <li>
-            <a href="#layanan" class="hover:text-emerald-400 transition"
-              >Layanan Travel</a
-            >
+            <a
+              href="#layanan"
+              class="hover:text-emerald-400 transition"
+            >Layanan Travel</a>
           </li>
           <li>
-            <a href="#tentang" class="hover:text-emerald-400 transition"
-              >Tentang Kami</a
-            >
+            <a
+              href="#tentang"
+              class="hover:text-emerald-400 transition"
+            >Tentang Kami</a>
           </li>
           <li>
-            <a href="#kontak" class="hover:text-emerald-400 transition"
-              >Kontak CS</a
-            >
+            <a
+              href="#kontak"
+              class="hover:text-emerald-400 transition"
+            >Kontak CS</a>
           </li>
         </ul>
       </div>
@@ -49,11 +55,14 @@
           Kantor Pusat
         </h4>
         <p class="text-xs text-slate-500 leading-relaxed">
-          Jl. Raya Siwakerta No. 123,<br />
+          Jl. Raya Siwakerta No. 123,<br>
           Surabaya, Jawa Timur, Indonesia
         </p>
         <div class="pt-2 flex items-center gap-2 text-xs text-emerald-400">
-          <UIcon name="i-heroicons-phone" class="w-4 h-4" />
+          <UIcon
+            name="i-heroicons-phone"
+            class="w-4 h-4"
+          />
           <span>+62 812-3456-7890</span>
         </div>
       </div>
