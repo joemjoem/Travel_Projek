@@ -17,19 +17,31 @@
       <div
         class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300"
       >
-        <a href="#home" class="hover:text-emerald-400 transition">Home</a>
-        <a href="#layanan" class="hover:text-emerald-400 transition"
-          >Layanan Travel</a
-        >
-        <a href="#tentang" class="hover:text-emerald-400 transition"
-          >Tentang Kami</a
-        >
-        <a href="#kontak" class="hover:text-emerald-400 transition">Kontak</a>
+        <a
+          href="#home"
+          class="hover:text-emerald-400 transition"
+        >Home</a>
+        <a
+          href="#layanan"
+          class="hover:text-emerald-400 transition"
+        >Layanan Travel</a>
+        <a
+          href="#tentang"
+          class="hover:text-emerald-400 transition"
+        >Tentang Kami</a>
+        <a
+          href="#kontak"
+          class="hover:text-emerald-400 transition"
+        >Kontak</a>
       </div>
 
       <!-- Desktop CTA -->
       <div class="hidden md:block">
-        <UButton color="primary" variant="ghost" icon="i-heroicons-phone">
+        <UButton
+          color="primary"
+          variant="ghost"
+          icon="i-heroicons-phone"
+        >
           CS Resmi
         </UButton>
       </div>
@@ -87,19 +99,19 @@
 </template>
 
 <script setup lang="ts">
-const menuOpen = ref(false);
+const menuOpen = ref(false)
 
 const navLinks = [
-  { href: "#home", label: "Home" },
-  { href: "#layanan", label: "Layanan Travel" },
-  { href: "#tentang", label: "Tentang Kami" },
-  { href: "#kontak", label: "Kontak" },
-];
+  { href: '#home', label: 'Home' },
+  { href: '#layanan', label: 'Layanan Travel' },
+  { href: '#tentang', label: 'Tentang Kami' },
+  { href: '#kontak', label: 'Kontak' }
+]
 
 // Tutup menu saat resize ke desktop
 onMounted(() => {
-  window.addEventListener("resize", () => {
-    if (window.innerWidth >= 768) menuOpen.value = false;
-  });
-});
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 768) menuOpen.value = false
+  })
+})
 </script>
