@@ -47,26 +47,22 @@ const fleets = [
   {
     name: 'New Avanza',
     capacity: 4,
-    image:
-      'https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=400' // Gambar sementara
+    image: '/image/new_avanza.png' // Gambar sementara
   },
   {
     name: 'Innova Reborn',
     capacity: 5,
-    image:
-      'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=400' // Gambar sementara
+    image: '/image/innova_reborn.png' // Gambar sementara
   },
   {
     name: 'Hiace Commuter',
     capacity: 14,
-    image:
-      'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=400' // Gambar sementara
+    image: '/image/HIACE.png'
   },
   {
     name: 'Hiace Premio',
     capacity: 14,
-    image:
-      'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=400' // Gambar sementara
+    image: '/image/HIACE_Premio.png'
   }
 ]
 </script>
