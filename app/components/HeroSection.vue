@@ -41,12 +41,17 @@
           </div>
         </div>
 
-        <div class="lg:col-span-5 relative z-20 mt-8 lg:mt-12 lg:-mb-44">
-          <img
+        <div class="lg:col-span-5 relative z-20 mt-8 lg:mt-12 lg:-mb-66">
+          <!-- <img
             src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=800"
             alt="Armada Siwakerta Travel"
             class="w-full h-auto object-cover rounded-xl shadow-2xl lg:scale-110 transform origin-bottom-left"
-          >
+          > -->
+          <NuxtImg
+            src="/image/car_group.png"
+            alt="Armada Siwakerta Travel"
+            class="w-full h-auto lg:scale-140 transform origin-bottom-right"
+          />
         </div>
       </div>
     </div>
