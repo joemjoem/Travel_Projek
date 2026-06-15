@@ -22,8 +22,8 @@
           <div class="pt-2 flex flex-wrap items-center gap-6">
             <button
               type="button"
-              @click="$emit('open-booking')"
               class="px-6 py-3 bg-white text-[#0b1c3d] font-bold rounded-md hover:bg-slate-100 transition shadow-lg text-sm md:text-base"
+              @click="$emit('open-booking')"
             >
               Booking Sekarang
             </button>
@@ -33,16 +33,24 @@
               class="flex items-center gap-2 font-bold text-white hover:text-slate-300 transition text-sm md:text-base"
             >
               Lihat Layanan
-              <UIcon name="i-heroicons-arrow-long-right" class="w-5 h-5" />
+              <UIcon
+                name="i-heroicons-arrow-long-right"
+                class="w-5 h-5"
+              />
             </a>
           </div>
         </div>
 
-        <div class="lg:col-span-5 relative z-20 mt-8 lg:mt-12 lg:-mb-44">
-          <img
+        <div class="lg:col-span-5 relative z-20 mt-8 lg:mt-12 lg:-mb-66">
+          <!-- <img
             src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=800"
             alt="Armada Siwakerta Travel"
             class="w-full h-auto object-cover rounded-xl shadow-2xl lg:scale-110 transform origin-bottom-left"
+          > -->
+          <NuxtImg
+            src="/image/car_group.png"
+            alt="Armada Siwakerta Travel"
+            class="w-full h-auto lg:scale-140 transform origin-bottom-right"
           />
         </div>
       </div>
@@ -54,17 +62,21 @@
       <div
         class="flex items-center justify-center gap-8 text-xs md:text-sm font-medium"
       >
-        <span class="text-slate-400 font-bold tracking-wider uppercase text-2xs"
-          >Sosial Media Kami:</span
-        >
+        <span class="text-slate-400 font-bold tracking-wider uppercase text-2xs">Sosial Media Kami:</span>
 
         <div class="flex items-center gap-2">
-          <UIcon name="i-lucide-instagram" class="w-5 h-5 text-[#0b1c3d]" />
+          <UIcon
+            name="i-lucide-instagram"
+            class="w-5 h-5 text-[#0b1c3d]"
+          />
           <span class="text-slate-700">SIWAKERTA_TRAVEL</span>
         </div>
 
         <div class="flex items-center gap-2">
-          <UIcon name="i-lucide-phone" class="w-5 h-5 text-[#0b1c3d]" />
+          <UIcon
+            name="i-lucide-phone"
+            class="w-5 h-5 text-[#0b1c3d]"
+          />
           <span class="text-slate-700">0899-9890-9999</span>
         </div>
       </div>
@@ -73,5 +85,5 @@
 </template>
 
 <script setup>
-defineEmits(["open-booking"]);
+defineEmits(['open-booking'])
 </script>

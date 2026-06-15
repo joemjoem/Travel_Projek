@@ -16,7 +16,10 @@
           <div
             class="bg-white text-[#0b1c3d] p-3 rounded-xl flex items-center justify-center shadow-md shrink-0 w-12 h-12"
           >
-            <UIcon :name="feature.icon" class="w-6 h-6" />
+            <UIcon
+              :name="feature.icon"
+              class="w-6 h-6"
+            />
           </div>
 
           <div class="space-y-1">
@@ -38,28 +41,28 @@
 <script setup>
 const features = [
   {
-    icon: "i-lucide-car",
-    title: "Armada Terawat",
+    icon: 'i-lucide-car',
+    title: 'Armada Terawat',
     description:
-      "Kami menyediakan armada kendaraan yang selalu dalam kondisi prima, dengan model terbaru untuk kenyamanan perjalanan Anda.",
+      'Kami menyediakan armada kendaraan yang selalu dalam kondisi prima, dengan model terbaru untuk kenyamanan perjalanan Anda.'
   },
   {
-    icon: "i-lucide-id-card",
-    title: "Driver Berpengalaman",
+    icon: 'i-lucide-id-card',
+    title: 'Driver Berpengalaman',
     description:
-      "Driver kami terlatih, berpengalaman, dan mengutamakan keselamatan serta kenyamanan Anda selama perjalanan.",
+      'Driver kami terlatih, berpengalaman, dan mengutamakan keselamatan serta kenyamanan Anda selama perjalanan.'
   },
   {
-    icon: "i-lucide-tag",
-    title: "Harga Kompetitif dan Transparan",
+    icon: 'i-lucide-tag',
+    title: 'Harga Kompetitif dan Transparan',
     description:
-      "Kami menawarkan harga yang bersaing dengan rincian biaya yang jelas, tanpa ada biaya tersembunyi.",
+      'Kami menawarkan harga yang bersaing dengan rincian biaya yang jelas, tanpa ada biaya tersembunyi.'
   },
   {
-    icon: "i-lucide-text-select", // Representasi ikon list/menu pemesanan
-    title: "Pemesanan Mudah dan Cepat",
+    icon: 'i-lucide-text-select', // Representasi ikon list/menu pemesanan
+    title: 'Pemesanan Mudah dan Cepat',
     description:
-      "Dengan sistem pemesanan online yang user-friendly, Anda dapat memesan layanan transportasi kami dalam hitungan menit.",
-  },
-];
+      'Dengan sistem pemesanan online yang user-friendly, Anda dapat memesan layanan transportasi kami dalam hitungan menit.'
+  }
+]
 </script>

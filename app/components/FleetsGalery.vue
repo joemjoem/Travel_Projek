@@ -1,5 +1,8 @@
 <template>
-  <section id="armada" class="py-20 bg-slate-50 dark:bg-slate-950">
+  <section
+    id="armada"
+    class="py-20 bg-slate-50 dark:bg-slate-950"
+  >
     <div class="container mx-auto px-4 max-w-5xl">
       <div class="text-center mb-12">
         <h2
@@ -22,7 +25,7 @@
               :src="car.image"
               :alt="car.name"
               class="w-full max-w-[280px] h-auto object-contain transform group-hover:scale-105 transition duration-300"
-            />
+            >
           </div>
 
           <div class="bg-[#0b1c3d] text-white text-center py-4 px-4">
@@ -42,28 +45,24 @@
 <script setup>
 const fleets = [
   {
-    name: "New Avanza",
+    name: 'New Avanza',
     capacity: 4,
-    image:
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=400", // Gambar sementara
+    image: '/image/new_avanza.png' // Gambar sementara
   },
   {
-    name: "Innova Reborn",
+    name: 'Innova Reborn',
     capacity: 5,
-    image:
-      "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=400", // Gambar sementara
+    image: '/image/innova_reborn.png' // Gambar sementara
   },
   {
-    name: "Hiace Commuter",
+    name: 'Hiace Commuter',
     capacity: 14,
-    image:
-      "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=400", // Gambar sementara
+    image: '/image/HIACE.png'
   },
   {
-    name: "Hiace Premio",
+    name: 'Hiace Premio',
     capacity: 14,
-    image:
-      "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=400", // Gambar sementara
-  },
-];
+    image: '/image/HIACE_Premio.png'
+  }
+]
 </script>

@@ -11,12 +11,14 @@
         <UCard
           class="overflow-hidden shadow-md"
           :ui="{
-            header: 'p-0 sm:p-0',
+            header: 'p-0 sm:p-0'
           }"
         >
           <template #header>
             <div class="bg-slate-900 text-white p-4">
-              <h3 class="font-bold text-lg">Paket Reguler</h3>
+              <h3 class="font-bold text-lg">
+                Paket Reguler
+              </h3>
               <p class="text-xs text-slate-400">
                 Antar jemput rute langsung terjadwal
               </p>
@@ -34,7 +36,12 @@
                 </p>
                 <span class="text-xs text-slate-400">{{ rute.sub }}</span>
               </div>
-              <UBadge color="slate" variant="solid">Rp {{ rute.price }}</UBadge>
+              <UBadge
+                color="slate"
+                variant="solid"
+              >
+                Rp {{ rute.price }}
+              </UBadge>
             </div>
           </div>
         </UCard>
@@ -42,12 +49,14 @@
         <UCard
           class="overflow-hidden shadow-md"
           :ui="{
-            header: 'p-0 sm:p-0',
+            header: 'p-0 sm:p-0'
           }"
         >
           <template #header>
             <div class="bg-slate-900 text-white p-4">
-              <h3 class="font-bold text-lg">Carter Drop</h3>
+              <h3 class="font-bold text-lg">
+                Carter Drop
+              </h3>
               <p class="text-xs text-slate-400">
                 Sewa privat sekali jalan gratis bensin dan supir
               </p>
@@ -65,9 +74,12 @@
                 </p>
                 <span class="text-xs text-slate-400">{{ car.capacity }}</span>
               </div>
-              <UBadge color="emerald" variant="solid"
-                >Rp {{ car.price }}</UBadge
+              <UBadge
+                color="emerald"
+                variant="solid"
               >
+                Rp {{ car.price }}
+              </UBadge>
             </div>
           </div>
         </UCard>
@@ -79,33 +91,33 @@
 <script setup>
 const regulerRoutes = [
   {
-    title: "Jember ➔ Surabaya",
-    sub: "Keberangkatan Pagi/Malam",
-    price: "150.000",
+    title: 'Jember ➔ Surabaya',
+    sub: 'Keberangkatan Pagi/Malam',
+    price: '150.000'
   },
-  { title: "Banyuwangi ➔ Jember", sub: "Keberangkatan Sore", price: "120.000" },
+  { title: 'Banyuwangi ➔ Jember', sub: 'Keberangkatan Sore', price: '120.000' },
   {
-    title: "Malang ➔ Surabaya",
-    sub: "Keberangkatan Tiap Jam",
-    price: "100.000",
-  },
-];
+    title: 'Malang ➔ Surabaya',
+    sub: 'Keberangkatan Tiap Jam',
+    price: '100.000'
+  }
+]
 
 const carterPrices = [
   {
-    name: "Avanza / Xenia",
-    capacity: "Kapasitas maks. 5 Penumpang",
-    price: "650.000",
+    name: 'Avanza / Xenia',
+    capacity: 'Kapasitas maks. 5 Penumpang',
+    price: '650.000'
   },
   {
-    name: "Innova Reborn",
-    capacity: "Kapasitas maks. 7 Penumpang",
-    price: "850.000",
+    name: 'Innova Reborn',
+    capacity: 'Kapasitas maks. 7 Penumpang',
+    price: '850.000'
   },
   {
-    name: "Hiace Commuter",
-    capacity: "Kapasitas maks. 14 Penumpang",
-    price: "1.200.000",
-  },
-];
+    name: 'Hiace Commuter',
+    capacity: 'Kapasitas maks. 14 Penumpang',
+    price: '1.200.000'
+  }
+]
 </script>
