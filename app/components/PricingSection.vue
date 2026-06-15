@@ -1,4 +1,15 @@
 <script setup>
+const isOpen = ref(false)
+const isCarterDropFormModalOpen = ref(false)
+const isHolidayFormOpen = ref(false)
+const holidayType = ref('')
+
+// --------- handle holidaytypeForm ---------
+function setHolidaytype(status, type) {
+  isHolidayFormOpen.value = status
+  holidayType.value = type
+}
+
 // ===== TRAVEL REGULER =====
 const regulerCity = ref('blitar')
 
@@ -124,8 +135,8 @@ const wisataPackages = [
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
         <!-- TRAVEL REGULER -->
         <UCard
-          class="overflow-hidden shadow-md"
-          :ui="{ header: '!p-0' }"
+          class="flex flex-col overflow-hidden shadow-md"
+          :ui="{ header: '!p-0', body: 'flex-1', footer: '!p-0' }"
         >
           <template #header>
             <div
@@ -213,32 +224,42 @@ const wisataPackages = [
                   </p>
                 </div>
               </div>
-              <div
-                class="flex items-center justify-between p-2 rounded-md bg-slate-100/30"
-              >
-                <div>
-                  <p class="text-sm font-semibold text-slate-800">
-                    Mulai dari
-                  </p>
-                  <!-- <span class="text-xs text-slate-400">{{
-                  regulerData[regulerCity].note
-                }}</span> -->
-                </div>
-                <UBadge
-                  color="amber"
-                  variant="solid"
-                >
-                  Rp {{ regulerData[regulerCity].startFrom }}
-                </UBadge>
-              </div>
             </div>
           </div>
+          <template #footer>
+            <div
+              class="flex items-center justify-between hover:bg-slate-100/30 hover:cursor-pointer duration-500 px-6 py-3"
+              @click="
+                () => {
+                  console.log('cek');
+                  isOpen = true;
+                }
+              "
+            >
+              <p class="text-xs text-slate-800 font-semibold">
+                Booking sekarang
+              </p>
+
+              <!-- <UIcon
+                name="i-lucide-move-right"
+                class="w-4 h-4 flex-shrink-0 text-slate-800"
+              /> -->
+              <div class="flex flex-col items-center">
+                <p class="text-xs text-slate-400">
+                  Mulai dari
+                </p>
+                <p class="text-xs text-slate-800">
+                  Rp {{ regulerData[regulerCity].startFrom }}
+                </p>
+              </div>
+            </div>
+          </template>
         </UCard>
 
         <!-- CARTER DROP -->
         <UCard
           class="overflow-hidden shadow-md"
-          :ui="{ header: '!p-0' }"
+          :ui="{ header: '!p-0', footer: '!p-0' }"
         >
           <template #header>
             <div
@@ -300,6 +321,21 @@ const wisataPackages = [
               </div>
             </div>
           </div>
+          <template #footer>
+            <div
+              class="flex items-center justify-between hover:bg-slate-100/30 hover:cursor-pointer duration-500 px-6 py-3"
+              @click="isCarterDropFormModalOpen = true"
+            >
+              <p class="text-xs text-slate-800 font-semibold">
+                Booking sekarang
+              </p>
+
+              <UIcon
+                name="i-lucide-move-right"
+                class="w-4 h-4 flex-shrink-0 text-slate-800"
+              />
+            </div>
+          </template>
         </UCard>
       </div>
 
@@ -316,7 +352,7 @@ const wisataPackages = [
             v-for="pkg in wisataPackages"
             :key="pkg.title"
             class="overflow-hidden shadow-md"
-            :ui="{ header: '!p-0' }"
+            :ui="{ header: '!p-0', footer: '!p-0' }"
           >
             <template #header>
               <div class="bg-slate-900 text-white p-4">
@@ -346,9 +382,65 @@ const wisataPackages = [
                 </UBadge>
               </div>
             </div>
+            <template #footer>
+              <div
+                class="flex items-center justify-between hover:bg-slate-100/30 hover:cursor-pointer duration-500 px-6 py-3"
+                @click="setHolidaytype(true, pkg.title)"
+              >
+                <p class="text-xs text-slate-800 font-semibold">
+                  Booking sekarang
+                </p>
+
+                <UIcon
+                  name="i-lucide-move-right"
+                  class="w-4 h-4 flex-shrink-0 text-slate-800"
+                />
+              </div>
+            </template>
           </UCard>
         </div>
       </div>
     </div>
+    <UModal
+      v-model:open="isOpen"
+      :ui="{
+        body: '!p-0'
+      }"
+    >
+      <template #content>
+        <RegulerPacketForm @close-modal="isOpen = false" />
+      </template>
+    </UModal>
+
+    <UModal
+      v-model:open="isCarterDropFormModalOpen"
+      :ui="{
+        body: '!p-0'
+      }"
+    >
+      <template #content>
+        <CarterDropPackageForm
+          @close-modal="isCarterDropFormModalOpen = false"
+        />
+      </template>
+    </UModal>
+
+    <UModal
+      v-model:open="isHolidayFormOpen"
+      :ui="{
+        body: '!p-0'
+      }"
+    >
+      <template #content>
+        <HolidayPackageForm
+          :holiday-type="holidayType"
+          @close-modal="
+            () => {
+              setHolidaytype(false, '');
+            }
+          "
+        />
+      </template>
+    </UModal>
   </section>
 </template>

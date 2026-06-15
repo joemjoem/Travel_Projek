@@ -19,7 +19,8 @@
     "better-sqlite3": "^12.10.0",
     "nuxt": "^4.4.2",
     "tailwindcss": "^4.2.4",
-    "vue3-carousel": "^0.17.0"
+    "vue3-carousel": "^0.17.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.15.2",
