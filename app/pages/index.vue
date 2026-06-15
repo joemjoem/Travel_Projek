@@ -11,12 +11,12 @@
     <TestimoniSection />
 
     <FaqSection />
-
+    <!--
     <UModal v-model="isOpen">
       <div class="p-6">
         <BookingWidget />
       </div>
-    </UModal>
+    </UModal> -->
   </div>
 </template>
 
