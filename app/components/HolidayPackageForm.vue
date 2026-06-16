@@ -4,12 +4,12 @@ import { z } from 'zod'
 
 const props = defineProps<{
   holidayType: string
+  showCancel?: boolean
 }>()
 
 const emits = defineEmits(['closeModal'])
 const { sendHolidayTravelBooking } = useWhatsApp()
 
-// ===== DATA =====
 const wisataData: Record<
   string,
   {
@@ -51,11 +51,8 @@ const wisataData: Record<
   }
 }
 
-// ===== COMPUTED =====
 const currentPackage = computed(() => wisataData[props.holidayType] ?? null)
-
 const unitOptions = computed(() => currentPackage.value?.units ?? [])
-
 const selectedPrice = computed(() => {
   if (!state.unit) return null
   return (
@@ -63,17 +60,10 @@ const selectedPrice = computed(() => {
     ?? null
   )
 })
-
 const formatPrice = (price: number) => 'Rp ' + price.toLocaleString('id-ID')
 
-// ===== STATE =====
-const state = reactive({
-  name: '',
-  unit: '',
-  date: ''
-})
+const state = reactive({ name: '', unit: '', date: '' })
 
-// Reset unit saat paket berubah
 watch(
   () => props.holidayType,
   () => {
@@ -81,23 +71,21 @@ watch(
   }
 )
 
-// ===== SCHEMA =====
 const schema = z.object({
   name: z.string().min(3, 'Nama tidak boleh kosong'),
   unit: z.string().min(1, 'Kendaraan wajib dipilih'),
   date: z.string().min(1, 'Tanggal perjalanan wajib diisi')
 })
 
-// ===== SUBMIT =====
 interface HolidayFormData {
   name: string
   unit: string
   date: string
 }
+
 async function onSubmit(event: HolidayFormData) {
   sendHolidayTravelBooking({ ...event, holidayType: props?.holidayType })
 }
-
 function closeModal() {
   emits('closeModal')
 }
@@ -109,8 +97,11 @@ const customInputUi = {
 
 <template>
   <div class="w-full max-w-lg mx-auto p-2 sm:p-4">
-    <!-- Header -->
-    <div class="flex items-center justify-between gap-3 p-4">
+    <!-- Header — hanya tampil di modal -->
+    <div
+      v-if="showCancel"
+      class="flex items-center justify-between gap-3 p-4"
+    >
       <div class="flex items-center gap-2">
         <div
           class="flex items-center justify-center p-2 bg-emerald-50 text-emerald-600 rounded-lg dark:bg-emerald-950/50 dark:text-emerald-400"
@@ -146,20 +137,16 @@ const customInputUi = {
       :schema="schema"
       :state="state"
       class="space-y-5"
-      @submit="
-        (e) => {
-          onSubmit(e?.data);
-        }
-      "
+      @submit="(e) => onSubmit(e?.data)"
     >
       <div class="w-full h-80 md:h-fit overflow-auto p-4 space-y-4">
-        <!-- Info Paket (dari prop) -->
+        <!-- Info Paket -->
         <div
-          v-if="currentPackage"
+          v-if="currentPackage && !showCancel"
           class="bg-slate-50 border border-slate-200 rounded-lg px-4 py-3"
         >
           <p class="text-xs text-slate-400 mb-1">
-            Paket Wisata
+            Paket dipilih
           </p>
           <p class="text-sm font-bold text-slate-800">
             {{ currentPackage.label }}
@@ -169,7 +156,6 @@ const customInputUi = {
           </p>
         </div>
 
-        <!-- Nama -->
         <UFormField
           label="Nama Lengkap"
           name="name"
@@ -182,7 +168,6 @@ const customInputUi = {
           />
         </UFormField>
 
-        <!-- Tipe Kendaraan -->
         <UFormField
           label="Tipe Kendaraan"
           name="unit"
@@ -198,7 +183,6 @@ const customInputUi = {
           />
         </UFormField>
 
-        <!-- Preview Harga -->
         <Transition name="fade">
           <div
             v-if="selectedPrice"
@@ -218,7 +202,6 @@ const customInputUi = {
           </div>
         </Transition>
 
-        <!-- Tanggal -->
         <UFormField
           label="Tanggal Perjalanan"
           name="date"
@@ -233,7 +216,6 @@ const customInputUi = {
           />
         </UFormField>
 
-        <!-- Tombol Aksi -->
         <div
           class="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-2"
         >

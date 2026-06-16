@@ -1,3 +1,7 @@
+<script setup>
+const isFormModalOpen = ref(false)
+</script>
+
 <template>
   <section
     id="home"
@@ -23,7 +27,7 @@
             <button
               type="button"
               class="px-6 py-3 bg-white text-[#0b1c3d] font-bold rounded-md hover:bg-slate-100 transition shadow-lg text-sm md:text-base"
-              @click="$emit('open-booking')"
+              @click="isFormModalOpen = true"
             >
               Booking Sekarang
             </button>
@@ -42,11 +46,6 @@
         </div>
 
         <div class="lg:col-span-5 relative z-20 mt-8 lg:mt-12 lg:-mb-66">
-          <!-- <img
-            src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=800"
-            alt="Armada Siwakerta Travel"
-            class="w-full h-auto object-cover rounded-xl shadow-2xl lg:scale-110 transform origin-bottom-left"
-          > -->
           <NuxtImg
             src="/image/car_group.png"
             alt="Armada Siwakerta Travel"
@@ -81,9 +80,15 @@
         </div>
       </div>
     </div>
+    <UModal
+      v-model:open="isFormModalOpen"
+      :ui="{
+        body: '!p-0'
+      }"
+    >
+      <template #content>
+        <BookingWidget @close-modal="isFormModalOpen = false" />
+      </template>
+    </UModal>
   </section>
 </template>
-
-<script setup>
-defineEmits(['open-booking'])
-</script>

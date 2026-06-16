@@ -2,16 +2,18 @@
 import { useWhatsApp } from '@/composables/useWhatsApp'
 import { z } from 'zod'
 
+const props = defineProps({
+  showCancel: {
+    type: Boolean,
+    default: true
+  }
+})
+
 const emits = defineEmits(['closeModal'])
-const toast = useToast()
 const { sendRegulerBookingForm } = useWhatsApp()
 
-// Rute fix - tidak ada kombinasi bebas asal/tujuan
 const routeOptions = [
-  {
-    type: 'label',
-    label: 'dari Malang'
-  },
+  { type: 'label', label: 'dari Malang' },
   { value: 'Malang - Surabaya Juanda', label: 'Malang ⇌ Juanda' },
   { value: 'Malang - Surabaya', label: 'Malang ⇌ Surabaya Kota' },
   {
@@ -19,13 +21,8 @@ const routeOptions = [
     label: 'Malang ⇌ Surabaya Tanjung Perak'
   },
   { value: 'Malang - Blitar', label: 'Malang ⇌ Blitar' },
-  {
-    type: 'separator'
-  },
-  {
-    type: 'label',
-    label: 'dari Blitar'
-  },
+  { type: 'separator' },
+  { type: 'label', label: 'dari Blitar' },
   { value: 'Blitar - Surabaya Juanda', label: 'Blitar ⇌ Juanda' },
   { value: 'Blitar - Surabaya', label: 'Blitar ⇌ Surabaya Kota' },
   {
@@ -33,29 +30,18 @@ const routeOptions = [
     label: 'Blitar ⇌ Surabaya Tanjung Perak'
   },
   { value: 'Blitar - Malang Kota', label: 'Blitar ⇌ Malang Kota' },
-  {
-    type: 'separator'
-  },
-  {
-    type: 'label',
-    label: 'dari Surabaya'
-  },
+  { type: 'separator' },
+  { type: 'label', label: 'dari Surabaya' },
   {
     value: 'Surabaya Tanjung Perak - Blitar',
     label: 'Surabaya Tanjung Perak ⇌ Blitar'
   },
-  {
-    value: 'Surabaya Juanda - Blitar',
-    label: 'Surabaya Juanda ⇌ Blitar'
-  },
+  { value: 'Surabaya Juanda - Blitar', label: 'Surabaya Juanda ⇌ Blitar' },
   {
     value: 'Surabaya Tanjung Perak - Malang',
     label: 'Surabaya Tanjung Perak ⇌ Malang'
   },
-  {
-    value: 'Surabaya Juanda - Malang',
-    label: 'Surabaya Juanda ⇌ Malang'
-  }
+  { value: 'Surabaya Juanda - Malang', label: 'Surabaya Juanda ⇌ Malang' }
 ]
 
 const schema = z.object({
@@ -67,7 +53,7 @@ const schema = z.object({
 
 const state = reactive({
   name: '',
-  route: routeOptions[1].value,
+  route: '',
   date: '',
   totalPessanger: 1
 })
@@ -77,23 +63,21 @@ function closeModal() {
 }
 
 async function onSubmit(event) {
-  sendRegulerBookingForm({
-    ...event.data
-  })
-  toast.add({ title: 'Pemesanan Berhasil!', color: 'success' })
+  sendRegulerBookingForm({ ...event.data })
 }
 
-// Konfigurasi UI untuk memaksakan border aktif berwarna #0b1c3d
 const customInputUi = {
   base: 'focus:!border-[#0b1c3d] focus:!ring-[#0b1c3d] dark:!focus:border-[#0b1c3d] dark:focus:!ring-[#0b1c3d]'
 }
 </script>
 
 <template>
-  <!-- RESPONSIF: max-w disesuaikan agar fleksibel di mobile sampai desktop -->
   <div class="w-full max-w-lg mx-auto p-2 sm:p-4">
-    <!-- Header -->
-    <div class="flex items-center justify-between gap-3 p-4">
+    <!-- Header — hanya tampil di modal (showCancel = true) -->
+    <div
+      v-if="props?.showCancel"
+      class="flex items-center justify-between gap-3 p-4"
+    >
       <div class="flex items-center gap-2">
         <div
           class="flex items-center justify-center p-2 bg-emerald-50 text-emerald-600 rounded-lg dark:bg-emerald-950/50 dark:text-emerald-400"
@@ -125,7 +109,6 @@ const customInputUi = {
       </div>
     </div>
 
-    <!-- Form -->
     <UForm
       :schema="schema"
       :state="state"
@@ -133,7 +116,6 @@ const customInputUi = {
       @submit="onSubmit"
     >
       <div class="w-full h-96 md:h-fit overflow-auto p-4 space-y-4">
-        <!-- Input Nama -->
         <UFormField
           label="Nama Lengkap"
           name="name"
@@ -146,7 +128,6 @@ const customInputUi = {
           />
         </UFormField>
 
-        <!-- Rute - Radio Group -->
         <UFormField
           label="Pilih Rute"
           name="route"
@@ -161,7 +142,6 @@ const customInputUi = {
           />
         </UFormField>
 
-        <!-- RESPONSIF Input Tanggal & Jumlah Penumpang -->
         <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
           <div class="sm:col-span-7">
             <UFormField
@@ -194,7 +174,6 @@ const customInputUi = {
           </div>
         </div>
 
-        <!-- Tombol Aksi: Otomatis full-width di mobile, rapi di desktop -->
         <div
           class="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-2"
         >

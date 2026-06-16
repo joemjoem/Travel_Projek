@@ -2,10 +2,16 @@
 import { useWhatsApp } from '@/composables/useWhatsApp'
 import { z } from 'zod'
 
+const props = defineProps({
+  showCancel: {
+    type: Boolean,
+    default: true
+  }
+})
+
 const emits = defineEmits(['closeModal'])
 const { sendCarterBookingForm } = useWhatsApp()
 
-// ===== DATA =====
 const carterData = {
   malang: {
     label: 'Malang Kota',
@@ -103,10 +109,7 @@ const carterData = {
       calya: {
         label: 'Calya / Avanza',
         routes: [
-          {
-            type: 'label',
-            label: 'ke Malang'
-          },
+          { type: 'label', label: 'ke Malang' },
           {
             label: 'Surabaya Kota → Malang',
             price: 550000,
@@ -122,10 +125,7 @@ const carterData = {
             price: 650000,
             value: 'Surabaya Tanjung Perak → Malang'
           },
-          {
-            type: 'label',
-            label: 'ke Blitar'
-          },
+          { type: 'label', label: 'ke Blitar' },
           {
             label: 'Surabaya Kota → Blitar',
             price: 700000,
@@ -146,10 +146,7 @@ const carterData = {
       innova: {
         label: 'Innova Reborn',
         routes: [
-          {
-            type: 'label',
-            label: 'ke Malang'
-          },
+          { type: 'label', label: 'ke Malang' },
           {
             label: 'Surabaya Kota → Malang',
             price: 700000,
@@ -165,10 +162,7 @@ const carterData = {
             price: 800000,
             value: 'Surabaya Tanjung Perak → Malang'
           },
-          {
-            type: 'label',
-            label: 'ke Blitar'
-          },
+          { type: 'label', label: 'ke Blitar' },
           {
             label: 'Surabaya Kota → Blitar',
             price: 800000,
@@ -190,7 +184,6 @@ const carterData = {
   }
 }
 
-// ===== STATE =====
 const state = reactive({
   name: '',
   city: 'malang',
@@ -199,44 +192,29 @@ const state = reactive({
   date: ''
 })
 
-// ===== COMPUTED OPTIONS =====
 const cityOptions = computed(() =>
   Object.entries(carterData).map(([key, val]) => ({
     value: key,
     label: val.label
   }))
 )
-
 const unitOptions = computed(() =>
   Object.entries(carterData[state.city].units).map(([key, val]) => ({
     value: key,
     label: val.label
   }))
 )
-
 const routeOptions = computed(() =>
-  carterData[state.city].units[state.unit].routes.map((r) => {
-    if (r?.type) {
-      return r
-    } else {
-      return {
-        value: r.label,
-        label: r.label,
-        price: r.price
-      }
-    }
-  })
+  carterData[state.city].units[state.unit].routes.map(r =>
+    r?.type ? r : { value: r.label, label: r.label, price: r.price }
+  )
 )
-
-// Harga berdasarkan rute yang dipilih
 const selectedPrice = computed(() => {
   const found = routeOptions.value.find(r => r.value === state.route)
   return found ? found.price : null
 })
-
 const formatPrice = price => 'Rp ' + price.toLocaleString('id-ID')
 
-// Reset downstream saat kota/unit berubah
 watch(
   () => state.city,
   () => {
@@ -244,7 +222,6 @@ watch(
     state.route = ''
   }
 )
-
 watch(
   () => state.unit,
   () => {
@@ -252,7 +229,6 @@ watch(
   }
 )
 
-// ===== SCHEMA =====
 const schema = z.object({
   name: z.string().min(3, 'Nama tidak boleh kosong'),
   city: z.string().min(1, 'Kota asal wajib dipilih'),
@@ -264,7 +240,6 @@ const schema = z.object({
 async function onSubmit(event) {
   sendCarterBookingForm(event?.data)
 }
-
 function closeModal() {
   emits('closeModal')
 }
@@ -276,8 +251,11 @@ const customInputUi = {
 
 <template>
   <div class="w-full max-w-lg mx-auto p-2 sm:p-4">
-    <!-- Header -->
-    <div class="flex items-center justify-between gap-3 p-4">
+    <!-- Header — hanya tampil di modal -->
+    <div
+      v-if="props?.showCancel"
+      class="flex items-center justify-between gap-3 p-4"
+    >
       <div class="flex items-center gap-2">
         <div
           class="flex items-center justify-center p-2 bg-emerald-50 text-emerald-600 rounded-lg dark:bg-emerald-950/50 dark:text-emerald-400"
@@ -309,7 +287,6 @@ const customInputUi = {
       </div>
     </div>
 
-    <!-- Form -->
     <UForm
       :schema="schema"
       :state="state"
@@ -317,7 +294,6 @@ const customInputUi = {
       @submit="onSubmit"
     >
       <div class="w-full h-80 md:h-fit overflow-auto p-4 space-y-4">
-        <!-- Nama -->
         <UFormField
           label="Nama Lengkap"
           name="name"
@@ -329,8 +305,6 @@ const customInputUi = {
             placeholder="Masukkan nama lengkap"
           />
         </UFormField>
-
-        <!-- Dropdown 1: Kota Asal -->
         <UFormField
           label="Kota Asal"
           name="city"
@@ -344,8 +318,6 @@ const customInputUi = {
             class="w-full"
           />
         </UFormField>
-
-        <!-- Dropdown 2: Unit Kendaraan -->
         <UFormField
           label="Tipe Kendaraan"
           name="unit"
@@ -359,8 +331,6 @@ const customInputUi = {
             class="w-full"
           />
         </UFormField>
-
-        <!-- Dropdown 3: Rute (filter otomatis) -->
         <UFormField
           label="Rute Tujuan"
           name="route"
@@ -376,7 +346,6 @@ const customInputUi = {
           />
         </UFormField>
 
-        <!-- Preview Harga -->
         <Transition name="fade">
           <div
             v-if="selectedPrice"
@@ -397,7 +366,6 @@ const customInputUi = {
           </div>
         </Transition>
 
-        <!-- Tanggal -->
         <UFormField
           label="Tanggal Perjalanan"
           name="date"
@@ -412,7 +380,6 @@ const customInputUi = {
           />
         </UFormField>
 
-        <!-- Tombol Aksi -->
         <div
           class="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-2"
         >

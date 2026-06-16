@@ -434,7 +434,7 @@ const wisataPackages = [
       }"
     >
       <template #content>
-        <HolidayPackageForm
+        <HolidayPackageWrap
           :holiday-type="holidayType"
           @close-modal="
             () => {
