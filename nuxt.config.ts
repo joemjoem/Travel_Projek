@@ -19,15 +19,15 @@ export default defineNuxtConfig({
     }
   },
   css: ['~/assets/css/main.css'],
-  colorMode: {
-    preference: 'light',
-    fallback: 'light',
-    classSuffix: ''
-  },
   site: {
     url: 'https://nama-web-travel-kamu.com',
     name: 'Travel Agent Indonesia',
     trailingSlash: true
+  },
+  colorMode: {
+    preference: 'light',
+    fallback: 'light',
+    classSuffix: ''
   },
   runtimeConfig: {
     public: {
