@@ -26,7 +26,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      waNumber: '' // otomatis diisi dari NUXT_PUBLIC_WA_NUMBER
+      waNumber: '',
+      travelName: ''
     }
   },
 

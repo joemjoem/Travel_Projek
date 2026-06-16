@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import { useWhatsApp } from "@/composables/useWhatsApp";
+const { sendMessageToAdmin } = useWhatsApp();
+</script>
 <template>
   <div
     class="fixed bottom-2 right-2 md:bottom-6 md:right-6 z-50 flex flex-col items-end gap-2"
@@ -10,38 +14,17 @@
     </div>
 
     <!-- Floating Button -->
-    <a
-      :href="whatsappUrl"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Chat WhatsApp"
-      class="hidden w-14 h-14 bg-emerald-500 hover:bg-emerald-600 rounded-full shadow-lg md:flex items-center justify-center transition-colors duration-200"
+    <div
+      class="hidden hover:cursor-pointer w-14 h-14 bg-emerald-500 hover:bg-emerald-600 rounded-full shadow-lg md:flex items-center justify-center transition-colors duration-200"
+      @click="sendMessageToAdmin"
     >
-      <UIcon
-        name="i-simple-icons-whatsapp"
-        class="w-7 h-7 text-white"
-      />
-    </a>
-    <a
-      :href="whatsappUrl"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Chat WhatsApp"
-      class="md:hidden text-xs text-white p-1 bg-emerald-500 rounded shadow-lg flex items-center justify-center transition-colors duration-200"
+      <UIcon name="i-simple-icons-whatsapp" class="w-7 h-7 text-white" />
+    </div>
+    <div
+      class="md:hidden hover:cursor-pointer text-xs text-white p-1 bg-emerald-500 rounded shadow-lg flex items-center justify-center transition-colors duration-200"
+      @click="sendMessageToAdmin"
     >
       Ada pertanyaan? tekan disini
-    </a>
+    </div>
   </div>
 </template>
-
-<script setup lang="ts">
-// Ganti nomor & pesan default sesuai kebutuhan
-const phoneNumber = '6281234567890'
-const defaultMessage
-  = 'Halo, saya ada pertanyaan terkait layanan travel Siwakerta.'
-
-const whatsappUrl = computed(
-  () =>
-    `https://wa.me/${phoneNumber}?text=${encodeURIComponent(defaultMessage)}`
-)
-</script>

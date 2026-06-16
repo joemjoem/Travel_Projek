@@ -1,9 +1,7 @@
 <template>
   <div>
     <HeroSection @open-booking="isOpen = true" />
-
     <ServiceFeatures />
-
     <PricingSection />
     <BookingSteps />
     <FleetsGalery />
@@ -15,5 +13,5 @@
 </template>
 
 <script setup>
-const isOpen = ref(false)
+const isOpen = ref(false);
 </script>

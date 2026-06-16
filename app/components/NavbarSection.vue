@@ -1,3 +1,25 @@
+<script setup lang="ts">
+import { useWhatsApp } from "@/composables/useWhatsApp";
+
+const { sendMessageToAdmin } = useWhatsApp();
+const config = useRuntimeConfig();
+const travelName = config.public.travelName;
+const menuOpen = ref(false);
+
+const navLinks = [
+  { href: "#home", label: "Home" },
+  { href: "#layanan", label: "Layanan Travel" },
+  // { href: "#tentang", label: "Tentang Kami" },
+  // { href: "#kontak", label: "Kontak" },
+];
+
+// Tutup menu saat resize ke desktop
+onMounted(() => {
+  window.addEventListener("resize", () => {
+    if (window.innerWidth >= 768) menuOpen.value = false;
+  });
+});
+</script>
 <template>
   <nav
     class="bg-slate-950 text-white sticky top-0 z-50 border-b border-slate-800"
@@ -5,11 +27,11 @@
     <div class="container mx-auto px-4 py-4 flex items-center justify-between">
       <!-- Logo -->
       <div class="flex items-center gap-2">
-        <div
+        <!-- <div
           class="w-8 h-8 bg-emerald-500 rounded flex items-center justify-center font-bold text-slate-950"
         >
           S
-        </div>
+        </div> -->
         <span class="font-bold tracking-wider text-lg">PT. SIWAKERTA</span>
       </div>
 
@@ -17,22 +39,14 @@
       <div
         class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300"
       >
-        <a
-          href="#home"
-          class="hover:text-emerald-400 transition"
-        >Home</a>
-        <a
-          href="#layanan"
-          class="hover:text-emerald-400 transition"
-        >Layanan Travel</a>
-        <a
-          href="#tentang"
-          class="hover:text-emerald-400 transition"
-        >Tentang Kami</a>
-        <a
-          href="#kontak"
-          class="hover:text-emerald-400 transition"
-        >Kontak</a>
+        <a href="#home" class="hover:text-emerald-400 transition">Home</a>
+        <a href="#layanan" class="hover:text-emerald-400 transition"
+          >Layanan Travel</a
+        >
+        <!-- <a href="#tentang" class="hover:text-emerald-400 transition"
+          >Tentang Kami</a
+        >
+        <a href="#kontak" class="hover:text-emerald-400 transition">Kontak</a> -->
       </div>
 
       <!-- Desktop CTA -->
@@ -41,6 +55,8 @@
           color="primary"
           variant="ghost"
           icon="i-heroicons-phone"
+          class="hover:cursor-pointer"
+          @click="sendMessageToAdmin"
         >
           CS Resmi
         </UButton>
@@ -88,7 +104,8 @@
             color="primary"
             variant="ghost"
             icon="i-heroicons-phone"
-            class="w-full justify-center"
+            class="hover:cursor-pointer w-full justify-center"
+            @click="sendMessageToAdmin"
           >
             CS Resmi
           </UButton>
@@ -97,21 +114,3 @@
     </Transition>
   </nav>
 </template>
-
-<script setup lang="ts">
-const menuOpen = ref(false)
-
-const navLinks = [
-  { href: '#home', label: 'Home' },
-  { href: '#layanan', label: 'Layanan Travel' },
-  { href: '#tentang', label: 'Tentang Kami' },
-  { href: '#kontak', label: 'Kontak' }
-]
-
-// Tutup menu saat resize ke desktop
-onMounted(() => {
-  window.addEventListener('resize', () => {
-    if (window.innerWidth >= 768) menuOpen.value = false
-  })
-})
-</script>
