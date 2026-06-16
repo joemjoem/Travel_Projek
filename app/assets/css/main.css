@@ -1,7 +1,8 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
-@theme static {
+/* Koreksi: Hapus kata 'static' agar variabel bawaan seperti --emerald-* tetap aktif */
+@theme {
   --font-sans: 'Public Sans', sans-serif;
 
   --color-green-50: #EFFDF5;
@@ -16,7 +17,7 @@
   --color-green-900: #0A5331;
   --color-green-950: #052E16;
 
-  /* PERBAIKAN: Menggunakan --emerald-* bawaan Tailwind v4 */
+  /* Ini sudah betul, akan berjalan lancar setelah 'static' dihapus */
   --color-primary-50: var(--emerald-50);
   --color-primary-100: var(--emerald-100);
   --color-primary-200: var(--emerald-200);
@@ -29,7 +30,7 @@
   --color-primary-900: var(--emerald-900);
   --color-primary-950: var(--emerald-950);
 
-  /* PERBAIKAN: Menggunakan --slate-* bawaan Tailwind v4 */
+  /* Ini juga sudah betul */
   --color-neutral-50: var(--slate-50);
   --color-neutral-100: var(--slate-100);
   --color-neutral-200: var(--slate-200);
@@ -41,4 +42,14 @@
   --color-neutral-800: var(--slate-800);
   --color-neutral-900: var(--slate-900);
   --color-neutral-950: var(--slate-950);
+}
+
+/* Trik menjinakkan dark mode ini sudah sangat betul */
+html, :root {
+  color-scheme: light !important;
+}
+
+.dark {
+  background-color: #ffffff !important; 
+  color: #1f2937 !important; 
 }
