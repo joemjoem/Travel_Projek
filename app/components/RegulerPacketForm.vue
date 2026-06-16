@@ -1,36 +1,75 @@
 <script setup>
+import { useWhatsApp } from '@/composables/useWhatsApp'
 import { z } from 'zod'
 
 const emits = defineEmits(['closeModal'])
 const toast = useToast()
+const { sendRegulerBookingForm } = useWhatsApp()
 
-const kotaOptions = [
-  'Surabaya Kota',
-  'Blitar',
-  'Malang Kota',
-  'Juanda',
-  'Tanjung Perak Surabaya'
+// Rute fix - tidak ada kombinasi bebas asal/tujuan
+const routeOptions = [
+  {
+    type: 'label',
+    label: 'dari Malang'
+  },
+  { value: 'Malang - Surabaya Juanda', label: 'Malang ⇌ Juanda' },
+  { value: 'Malang - Surabaya', label: 'Malang ⇌ Surabaya Kota' },
+  {
+    value: 'Malang - Surabaya Tanjung Perak',
+    label: 'Malang ⇌ Surabaya Tanjung Perak'
+  },
+  { value: 'Malang - Blitar', label: 'Malang ⇌ Blitar' },
+  {
+    type: 'separator'
+  },
+  {
+    type: 'label',
+    label: 'dari Blitar'
+  },
+  { value: 'Blitar - Surabaya Juanda', label: 'Blitar ⇌ Juanda' },
+  { value: 'Blitar - Surabaya', label: 'Blitar ⇌ Surabaya Kota' },
+  {
+    value: 'Blitar - Surabaya Tanjung Perak',
+    label: 'Blitar ⇌ Surabaya Tanjung Perak'
+  },
+  { value: 'Blitar - Malang Kota', label: 'Blitar ⇌ Malang Kota' },
+  {
+    type: 'separator'
+  },
+  {
+    type: 'label',
+    label: 'dari Surabaya'
+  },
+  {
+    value: 'Surabaya Tanjung Perak - Blitar',
+    label: 'Surabaya Tanjung Perak ⇌ Blitar'
+  },
+  {
+    value: 'Surabaya Juanda - Blitar',
+    label: 'Surabaya Juanda ⇌ Blitar'
+  },
+  {
+    value: 'Surabaya Tanjung Perak - Malang',
+    label: 'Surabaya Tanjung Perak ⇌ Malang'
+  },
+  {
+    value: 'Surabaya Juanda - Malang',
+    label: 'Surabaya Juanda ⇌ Malang'
+  }
 ]
 
-const schema = z
-  .object({
-    name: z.string().min(3, 'Nama tidak boleh kosong'),
-    start: z.string().min(1, 'Asal wajib dipilih'),
-    destination: z.string().min(1, 'Tujuan wajib dipilih'),
-    date: z.string().min(1, 'Tanggal perjalanan wajib diisi'),
-    totalPessanger: z.number().min(1, 'Minimal 1 penumpang')
-  })
-  .refine(data => data.start !== data.destination, {
-    message: 'Asal dan tujuan tidak boleh sama',
-    path: ['destination']
-  })
+const schema = z.object({
+  name: z.string().min(3, 'Nama tidak boleh kosong'),
+  route: z.string().min(1, 'Rute wajib dipilih'),
+  date: z.string().min(1, 'Tanggal perjalanan wajib diisi'),
+  totalPessanger: z.number().min(1, 'Minimal 1 penumpang')
+})
 
 const state = reactive({
   name: '',
-  asal: 'Surabaya',
-  tujuan: 'Blitar',
-  tanggal: '',
-  penumpang: 1
+  route: routeOptions[1].value,
+  date: '',
+  totalPessanger: 1
 })
 
 function closeModal() {
@@ -38,7 +77,9 @@ function closeModal() {
 }
 
 async function onSubmit(event) {
-  console.log('Data:', event.data)
+  sendRegulerBookingForm({
+    ...event.data
+  })
   toast.add({ title: 'Pemesanan Berhasil!', color: 'success' })
 }
 
@@ -91,7 +132,7 @@ const customInputUi = {
       class="space-y-5"
       @submit="onSubmit"
     >
-      <div class="w-full h-80 md:h-fit overflow-auto p-4 space-y-4">
+      <div class="w-full h-96 md:h-fit overflow-auto p-4 space-y-4">
         <!-- Input Nama -->
         <UFormField
           label="Nama Lengkap"
@@ -105,34 +146,20 @@ const customInputUi = {
           />
         </UFormField>
 
-        <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
-          <div class="sm:col-span-6">
-            <UFormField
-              label="Kota Asal"
-              name="start"
-            >
-              <USelect
-                v-model="state.start"
-                :items="kotaOptions"
-                :ui="customInputUi"
-                class="w-full"
-              />
-            </UFormField>
-          </div>
-          <div class="sm:col-span-6">
-            <UFormField
-              label="Kota Tujuan"
-              name="destination"
-            >
-              <USelect
-                v-model="state.destination"
-                :items="kotaOptions"
-                :ui="customInputUi"
-                class="w-full"
-              />
-            </UFormField>
-          </div>
-        </div>
+        <!-- Rute - Radio Group -->
+        <UFormField
+          label="Pilih Rute"
+          name="route"
+        >
+          <USelect
+            v-model="state.route"
+            :items="routeOptions"
+            value-key="value"
+            label-key="label"
+            placeholder="Pilih rute perjalanan..."
+            class="w-full"
+          />
+        </UFormField>
 
         <!-- RESPONSIF Input Tanggal & Jumlah Penumpang -->
         <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">

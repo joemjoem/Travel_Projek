@@ -93,6 +93,7 @@ const wisataPackages = [
     title: 'Wisata Kota Batu',
     desc: '08:00 - 20:00 · Termasuk Driver, Mobil, BBM',
     suffix: '/hari',
+    key: 'wisata-batu',
     tiers: [
       { unit: 'Calya / Avanza', price: '600.000' },
       { unit: 'Innova Reborn', price: '800.000' },
@@ -103,6 +104,7 @@ const wisataPackages = [
     title: 'Wisata Gunung Bromo',
     desc: 'Sunrise / Sunset · Termasuk Jeep, Mobil, Driver, BBM',
     suffix: '',
+    key: 'bromo',
     tiers: [
       { unit: 'Avanza', price: '1.500.000' },
       { unit: 'Innova Reborn', price: '1.700.000' },
@@ -113,6 +115,7 @@ const wisataPackages = [
     title: 'Batu - Bromo (2D1N)',
     desc: 'Termasuk Jeep, Mobil, Driver, BBM',
     suffix: '',
+    key: 'batu-bromo',
     tiers: [
       { unit: 'Avanza', price: '2.400.000' },
       { unit: 'Innova Reborn', price: '2.700.000' },
@@ -231,7 +234,6 @@ const wisataPackages = [
               class="flex items-center justify-between hover:bg-slate-100/30 hover:cursor-pointer duration-500 px-6 py-3"
               @click="
                 () => {
-                  console.log('cek');
                   isOpen = true;
                 }
               "
@@ -385,7 +387,7 @@ const wisataPackages = [
             <template #footer>
               <div
                 class="flex items-center justify-between hover:bg-slate-100/30 hover:cursor-pointer duration-500 px-6 py-3"
-                @click="setHolidaytype(true, pkg.title)"
+                @click="setHolidaytype(true, pkg.key)"
               >
                 <p class="text-xs text-slate-800 font-semibold">
                   Booking sekarang

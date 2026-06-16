@@ -1,38 +1,269 @@
 <script setup>
+import { useWhatsApp } from '@/composables/useWhatsApp'
 import { z } from 'zod'
 
 const emits = defineEmits(['closeModal'])
+const { sendCarterBookingForm } = useWhatsApp()
 
-const kotaOptions = [
-  'Surabaya Kota',
-  'Blitar',
-  'Malang Kota',
-  'Juanda',
-  'Tanjung Perak Surabaya'
-]
+// ===== DATA =====
+const carterData = {
+  malang: {
+    label: 'Malang Kota',
+    units: {
+      calya: {
+        label: 'Calya / Avanza',
+        routes: [
+          {
+            label: 'Malang Kota → Surabaya Juanda',
+            price: 550000,
+            value: 'Malang Kota → Surabaya Juanda'
+          },
+          {
+            label: 'Malang Kota → Surabaya Kota',
+            price: 650000,
+            value: 'Malang Kota → Surabaya Kota'
+          },
+          {
+            label: 'Malang Kota → Surabaya Tanjung Perak',
+            price: 650000,
+            value: 'Malang Kota → Surabaya Tanjung Perak'
+          }
+        ]
+      },
+      innova: {
+        label: 'Innova Reborn',
+        routes: [
+          {
+            label: 'Malang Kota → Surabaya Juanda',
+            price: 700000,
+            value: 'Malang Kota → Surabaya Juanda'
+          },
+          {
+            label: 'Malang Kota → Surabaya Kota',
+            price: 800000,
+            value: 'Malang Kota → Surabaya Kota'
+          },
+          {
+            label: 'Malang Kota → Surabaya Tanjung Perak',
+            price: 800000,
+            value: 'Malang Kota → Surabaya Tanjung Perak'
+          }
+        ]
+      }
+    }
+  },
+  blitar: {
+    label: 'Blitar Kota',
+    units: {
+      calya: {
+        label: 'Calya / Avanza',
+        routes: [
+          {
+            label: 'Blitar Kota → Juanda',
+            price: 700000,
+            value: 'Blitar Kota → Juanda'
+          },
+          {
+            label: 'Blitar Kota → Surabaya Kota',
+            price: 800000,
+            value: 'Blitar Kota → Surabaya Kota'
+          },
+          {
+            label: 'Blitar Kota → Tanjung Perak',
+            price: 800000,
+            value: 'Blitar Kota → Tanjung Perak'
+          }
+        ]
+      },
+      innova: {
+        label: 'Innova Reborn',
+        routes: [
+          {
+            label: 'Blitar Kota → Juanda',
+            price: 800000,
+            value: 'Blitar Kota → Juanda'
+          },
+          {
+            label: 'Blitar Kota → Surabaya Kota',
+            price: 900000,
+            value: 'Blitar Kota → Surabaya Kota'
+          },
+          {
+            label: 'Blitar Kota → Tanjung Perak',
+            price: 900000,
+            value: 'Blitar Kota → Tanjung Perak'
+          }
+        ]
+      }
+    }
+  },
+  surabaya: {
+    label: 'Surabaya Kota/Juanda/Tanjung Perak',
+    units: {
+      calya: {
+        label: 'Calya / Avanza',
+        routes: [
+          {
+            type: 'label',
+            label: 'ke Malang'
+          },
+          {
+            label: 'Surabaya Kota → Malang',
+            price: 550000,
+            value: 'Surabaya Kota → Malang'
+          },
+          {
+            label: 'Surabaya Juanda → Malang',
+            price: 650000,
+            value: 'Surabaya Juanda → Malang'
+          },
+          {
+            label: 'Surabaya Tanjung Perak → Malang',
+            price: 650000,
+            value: 'Surabaya Tanjung Perak → Malang'
+          },
+          {
+            type: 'label',
+            label: 'ke Blitar'
+          },
+          {
+            label: 'Surabaya Kota → Blitar',
+            price: 700000,
+            value: 'Surabaya Kota → Blitar'
+          },
+          {
+            label: 'Surabaya Juanda → Blitar',
+            price: 800000,
+            value: 'Surabaya Juanda → Blitar'
+          },
+          {
+            label: 'Surabaya Tanjung Perak → Blitar',
+            price: 800000,
+            value: 'Surabaya Tanjung Perak → Blitar'
+          }
+        ]
+      },
+      innova: {
+        label: 'Innova Reborn',
+        routes: [
+          {
+            type: 'label',
+            label: 'ke Malang'
+          },
+          {
+            label: 'Surabaya Kota → Malang',
+            price: 700000,
+            value: 'Surabaya Kota → Malang'
+          },
+          {
+            label: 'Surabaya Juanda → Malang',
+            price: 800000,
+            value: 'Surabaya Juanda → Malang'
+          },
+          {
+            label: 'Surabaya Tanjung Perak → Malang',
+            price: 800000,
+            value: 'Surabaya Tanjung Perak → Malang'
+          },
+          {
+            type: 'label',
+            label: 'ke Blitar'
+          },
+          {
+            label: 'Surabaya Kota → Blitar',
+            price: 800000,
+            value: 'Surabaya Kota → Blitar'
+          },
+          {
+            label: 'Surabaya Juanda → Blitar',
+            price: 900000,
+            value: 'Surabaya Juanda → Blitar'
+          },
+          {
+            label: 'Surabaya Tanjung Perak → Blitar',
+            price: 900000,
+            value: 'Surabaya Tanjung Perak → Blitar'
+          }
+        ]
+      }
+    }
+  }
+}
 
-const fleetList = ['Calya/Avanza', 'Innova Reborn']
-
-const schema = z
-  .object({
-    name: z.string().min(3, 'Nama tidak boleh kosong'),
-    start: z.string().min(1, 'Asal wajib dipilih'),
-    destination: z.string().min(1, 'Tujuan wajib dipilih'),
-    fleet: z.string().min(1, 'Kendaraan wajib dipilih'),
-    date: z.string().min(1, 'Tanggal perjalanan wajib diisi')
-  })
-  .refine(data => data.start !== data.destination, {
-    message: 'Asal dan tujuan tidak boleh sama',
-    path: ['destination']
-  })
-
+// ===== STATE =====
 const state = reactive({
   name: '',
-  start: 'Surabaya',
-  destination: 'Blitar',
-  date: '',
-  fleet: ''
+  city: 'malang',
+  unit: 'calya',
+  route: '',
+  date: ''
 })
+
+// ===== COMPUTED OPTIONS =====
+const cityOptions = computed(() =>
+  Object.entries(carterData).map(([key, val]) => ({
+    value: key,
+    label: val.label
+  }))
+)
+
+const unitOptions = computed(() =>
+  Object.entries(carterData[state.city].units).map(([key, val]) => ({
+    value: key,
+    label: val.label
+  }))
+)
+
+const routeOptions = computed(() =>
+  carterData[state.city].units[state.unit].routes.map((r) => {
+    if (r?.type) {
+      return r
+    } else {
+      return {
+        value: r.label,
+        label: r.label,
+        price: r.price
+      }
+    }
+  })
+)
+
+// Harga berdasarkan rute yang dipilih
+const selectedPrice = computed(() => {
+  const found = routeOptions.value.find(r => r.value === state.route)
+  return found ? found.price : null
+})
+
+const formatPrice = price => 'Rp ' + price.toLocaleString('id-ID')
+
+// Reset downstream saat kota/unit berubah
+watch(
+  () => state.city,
+  () => {
+    state.unit = 'calya'
+    state.route = ''
+  }
+)
+
+watch(
+  () => state.unit,
+  () => {
+    state.route = ''
+  }
+)
+
+// ===== SCHEMA =====
+const schema = z.object({
+  name: z.string().min(3, 'Nama tidak boleh kosong'),
+  city: z.string().min(1, 'Kota asal wajib dipilih'),
+  unit: z.string().min(1, 'Kendaraan wajib dipilih'),
+  route: z.string().min(1, 'Rute wajib dipilih'),
+  date: z.string().min(1, 'Tanggal perjalanan wajib diisi')
+})
+
+async function onSubmit(event) {
+  sendCarterBookingForm(event?.data)
+}
 
 function closeModal() {
   emits('closeModal')
@@ -45,6 +276,7 @@ const customInputUi = {
 
 <template>
   <div class="w-full max-w-lg mx-auto p-2 sm:p-4">
+    <!-- Header -->
     <div class="flex items-center justify-between gap-3 p-4">
       <div class="flex items-center gap-2">
         <div
@@ -59,7 +291,7 @@ const customInputUi = {
           <h3
             class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white"
           >
-            Form Booking Paket Carter
+            Form Booking Carter Drop
           </h3>
           <p class="text-xs text-slate-500">
             Silakan lengkapi data perjalanan Anda
@@ -76,13 +308,16 @@ const customInputUi = {
         />
       </div>
     </div>
-    <Uform
+
+    <!-- Form -->
+    <UForm
       :schema="schema"
       :state="state"
       class="space-y-5"
-      @submit="() => {}"
+      @submit="onSubmit"
     >
       <div class="w-full h-80 md:h-fit overflow-auto p-4 space-y-4">
+        <!-- Nama -->
         <UFormField
           label="Nama Lengkap"
           name="name"
@@ -91,67 +326,93 @@ const customInputUi = {
             v-model="state.name"
             :ui="customInputUi"
             class="w-full"
-            placeholder="Masukkan nama"
+            placeholder="Masukkan nama lengkap"
           />
         </UFormField>
-        <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
-          <div class="sm:col-span-6">
-            <UFormField
-              label="Kota Asal"
-              name="start"
-            >
-              <USelect
-                v-model="state.start"
-                :items="kotaOptions"
-                :ui="customInputUi"
-                class="w-full"
-              />
-            </UFormField>
+
+        <!-- Dropdown 1: Kota Asal -->
+        <UFormField
+          label="Kota Asal"
+          name="city"
+        >
+          <USelect
+            v-model="state.city"
+            :items="cityOptions"
+            value-key="value"
+            label-key="label"
+            :ui="customInputUi"
+            class="w-full"
+          />
+        </UFormField>
+
+        <!-- Dropdown 2: Unit Kendaraan -->
+        <UFormField
+          label="Tipe Kendaraan"
+          name="unit"
+        >
+          <USelect
+            v-model="state.unit"
+            :items="unitOptions"
+            value-key="value"
+            label-key="label"
+            :ui="customInputUi"
+            class="w-full"
+          />
+        </UFormField>
+
+        <!-- Dropdown 3: Rute (filter otomatis) -->
+        <UFormField
+          label="Rute Tujuan"
+          name="route"
+        >
+          <USelect
+            v-model="state.route"
+            :items="routeOptions"
+            value-key="value"
+            label-key="label"
+            placeholder="Pilih rute tujuan..."
+            :ui="customInputUi"
+            class="w-full"
+          />
+        </UFormField>
+
+        <!-- Preview Harga -->
+        <Transition name="fade">
+          <div
+            v-if="selectedPrice"
+            class="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-lg px-4 py-3"
+          >
+            <div>
+              <p class="text-xs text-slate-400">
+                Estimasi harga
+              </p>
+              <p class="text-sm font-bold text-slate-800">
+                {{ formatPrice(selectedPrice) }}
+              </p>
+            </div>
+            <div class="text-xs text-slate-400 text-right">
+              <p>Akses full tol</p>
+              <p>Driver + BBM included</p>
+            </div>
           </div>
-          <div class="sm:col-span-6">
-            <UFormField
-              label="Kota Tujuan"
-              name="destination"
-            >
-              <USelect
-                v-model="state.destination"
-                :items="kotaOptions"
-                :ui="customInputUi"
-                class="w-full"
-              />
-            </UFormField>
-          </div>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
-          <div class="sm:col-span-7">
-            <UFormField
-              label="Tipe Kendaraan"
-              name="fleet"
-            >
-              <USelect
-                v-model="state.fleet"
-                :items="fleetList"
-                :ui="customInputUi"
-                class="w-full"
-              />
-            </UFormField>
-          </div>
-          <div class="sm:col-span-5">
-            <UFormField
-              label="Tanggal Perjalanan"
-              name="date"
-            >
-              <UInput
-                v-model="state.date"
-                type="date"
-                :ui="customInputUi"
-                class="w-full"
-                @keydown.prevent
-                @click="(e) => e.target.showPicker?.()"
-              />
-            </UFormField>
-          </div>
-        </div>
+        </Transition>
+
+        <!-- Tanggal -->
+        <UFormField
+          label="Tanggal Perjalanan"
+          name="date"
+        >
+          <UInput
+            v-model="state.date"
+            type="date"
+            :ui="customInputUi"
+            class="w-full"
+            @keydown.prevent
+            @click="(e) => e.target.showPicker?.()"
+          />
+        </UFormField>
+
+        <!-- Tombol Aksi -->
         <div
           class="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-2"
         >
@@ -168,10 +429,24 @@ const customInputUi = {
             color="primary"
             class="justify-center"
           >
-            Pesan Sekarang
+            Pesan via WhatsApp
           </UButton>
         </div>
       </div>
-    </Uform>
+    </UForm>
   </div>
 </template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+</style>
