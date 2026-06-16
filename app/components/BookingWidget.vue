@@ -1,28 +1,55 @@
-<template>
-  <UCard
-    class="max-w-4xl mx-auto shadow-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl overflow-hidden"
-  >
-    <template #header>
-      <div class="flex items-center gap-3">
-        <div
-          class="p-2 bg-emerald-50 text-emerald-600 rounded-lg dark:bg-emerald-950/50 dark:text-emerald-400"
-        >
-          <UIcon
-            name="i-heroicons-ticket"
-            class="w-6 h-6"
-          />
-        </div>
-        <div>
-          <h3 class="text-xl font-bold text-slate-900 dark:text-white">
-            Form Pemesanan Tiket
-          </h3>
-          <p class="text-xs text-slate-500">
-            Silakan lengkapi data perjalanan Anda
-          </p>
-        </div>
-      </div>
-    </template>
+<script setup>
+const emits = defineEmits(['closeModal'])
+const activeTab = ref('reguler')
 
+const tabs = [
+  {
+    id: 'reguler',
+    name: 'Travel Reguler',
+    icon: 'i-heroicons-arrows-right-left'
+  },
+  { id: 'carter', name: 'Carter Drop', icon: 'i-heroicons-truck' },
+  { id: 'tour', name: 'Paket Tour', icon: 'i-heroicons-globe-asia-australia' }
+]
+
+const tourOptions = [
+  {
+    value: 'wisata-batu',
+    label: 'Wisata Kota Batu',
+    desc: '08:00–20:00 · Driver, Mobil, BBM'
+  },
+  {
+    value: 'bromo',
+    label: 'Wisata Gunung Bromo',
+    desc: 'Sunrise/Sunset · Jeep, Mobil, Driver, BBM'
+  },
+  {
+    value: 'batu-bromo',
+    label: 'Batu - Bromo (2D1N)',
+    desc: 'Jeep, Mobil, Driver, BBM'
+  }
+]
+
+const selectedTourType = ref('wisata-batu')
+
+// Reset tour type ke default saat pindah ke tab lain lalu balik
+watch(activeTab, (newTab) => {
+  if (newTab === 'tour') {
+    selectedTourType.value = 'wisata-batu'
+  }
+})
+
+// --------- handle close modal ---------
+function closeModal() {
+  emits('closeModal')
+}
+</script>
+
+<template>
+  <div
+    class="max-w-4xl p-3 shadow-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl overflow-hidden"
+  >
+    <!-- Tab Selector -->
     <div
       class="grid grid-cols-3 gap-2 mb-6 bg-slate-100 dark:bg-slate-800 p-1.5 rounded-xl"
     >
@@ -46,218 +73,96 @@
       </button>
     </div>
 
-    <form
-      class="space-y-5"
-      @submit.prevent="handleSubmit"
-    >
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <UFormGroup
-          label="Nama Lengkap"
-          required
-        >
-          <UInput
-            v-model="formData.name"
-            placeholder="Masukkan nama sesuai KTP"
-            icon="i-heroicons-user"
-            size="md"
-          />
-        </UFormGroup>
+    <!-- Form Content -->
+    <div class="w-full">
+      <!-- REGULER -->
+      <RegulerPacketForm
+        v-show="activeTab === 'reguler'"
+        :show-cancel="false"
+        class="w-full"
+        @close-modal="closeModal"
+      />
 
-        <UFormGroup
-          label="Tanggal Perjalanan"
-          required
-        >
-          <UInput
-            v-model="formData.date"
-            type="date"
-            icon="i-heroicons-calendar"
-            size="md"
-          />
-        </UFormGroup>
+      <!-- CARTER DROP -->
+      <CarterDropPackageForm
+        v-show="activeTab === 'carter'"
+        :show-cancel="false"
+        class="w-full"
+        @close-modal="closeModal"
+      />
+
+      <!-- PAKET TOUR -->
+      <div v-show="activeTab === 'tour'">
+        <!-- Radio pilih tipe wisata -->
+        <div class="px-4 mb-4">
+          <p
+            class="text-xs font-bold uppercase tracking-wide text-slate-400 mb-3"
+          >
+            Pilih Paket Wisata
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <button
+              v-for="opt in tourOptions"
+              :key="opt.value"
+              type="button"
+              class="text-left px-3 py-2.5 rounded-lg border transition-all duration-150"
+              :class="
+                selectedTourType === opt.value
+                  ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30'
+                  : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+              "
+              @click="selectedTourType = opt.value"
+            >
+              <div class="flex items-start gap-2">
+                <div
+                  class="mt-0.5 w-4 h-4 rounded-full border-2 flex-shrink-0 flex items-center justify-center"
+                  :class="
+                    selectedTourType === opt.value
+                      ? 'border-emerald-500'
+                      : 'border-slate-300'
+                  "
+                >
+                  <div
+                    v-if="selectedTourType === opt.value"
+                    class="w-2 h-2 rounded-full bg-emerald-500"
+                  />
+                </div>
+                <div>
+                  <p
+                    class="text-xs font-semibold text-slate-800 dark:text-white"
+                  >
+                    {{ opt.label }}
+                  </p>
+                  <p class="text-xs text-slate-400 mt-0.5">
+                    {{ opt.desc }}
+                  </p>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Form wisata dengan tipe yang dipilih -->
+        <HolidayPackageForm
+          :holiday-type="selectedTourType"
+          :show-cancel="false"
+          @close-modal="closeModal"
+        />
       </div>
-
-      <hr class="border-slate-100 dark:border-slate-800my-2">
-
-      <div
-        v-if="activeTab === 'reguler'"
-        class="grid grid-cols-1 md:grid-cols-3 gap-4 animate-fade-in"
-      >
-        <UFormGroup
-          label="Kota Asal"
-          required
-        >
-          <UInput
-            v-model="formData.origin"
-            placeholder="Contoh: Surabaya"
-            icon="i-heroicons-map-pin"
-            size="md"
-          />
-        </UFormGroup>
-        <UFormGroup
-          label="Kota Tujuan"
-          required
-        >
-          <UInput
-            v-model="formData.destination"
-            placeholder="Contoh: Jember"
-            icon="i-heroicons-flag"
-            size="md"
-          />
-        </UFormGroup>
-        <UFormGroup
-          label="Jumlah Penumpang"
-          required
-        >
-          <UInput
-            v-model.number="formData.passengers"
-            type="number"
-            min="1"
-            icon="i-heroicons-users"
-            size="md"
-          />
-        </UFormGroup>
-      </div>
-
-      <div
-        v-if="activeTab === 'carter'"
-        class="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in"
-      >
-        <UFormGroup
-          label="Pilihan Armada Mobil"
-          required
-        >
-          <USelectMenu
-            v-model="formData.vehicle"
-            :options="[
-              'Avanza / Xenia',
-              'Innova Reborn / Zenix',
-              'Hiace Commuter',
-              'Hiace Premio'
-            ]"
-            placeholder="Pilih armada mobil"
-            icon="i-heroicons-truck"
-            size="md"
-          />
-        </UFormGroup>
-        <UFormGroup
-          label="Jumlah Penumpang"
-          required
-        >
-          <UInput
-            v-model.number="formData.passengers"
-            type="number"
-            min="1"
-            icon="i-heroicons-users"
-            size="md"
-          />
-        </UFormGroup>
-      </div>
-
-      <div
-        v-if="activeTab === 'tour'"
-        class="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in"
-      >
-        <UFormGroup
-          label="Pilihan Destinasi Wisata"
-          required
-        >
-          <USelectMenu
-            v-model="formData.tourPackage"
-            :options="[
-              'Paket Wisata Bromo Sunrise',
-              'Paket Tour Kawah Ijen',
-              'City Tour Malang-Batu 2D1N'
-            ]"
-            placeholder="Pilih paket tour"
-            icon="i-heroicons-globe-asia-australia"
-            size="md"
-          />
-        </UFormGroup>
-        <UFormGroup
-          label="Jumlah Peserta Tur"
-          required
-        >
-          <UInput
-            v-model.number="formData.passengers"
-            type="number"
-            min="1"
-            icon="i-heroicons-users"
-            size="md"
-          />
-        </UFormGroup>
-      </div>
-
-      <div class="pt-4 flex justify-end">
-        <UButton
-          type="submit"
-          color="emerald"
-          size="lg"
-          icon="i-heroicons-chat-bubble-left-right"
-          class="w-full md:w-auto font-bold shadow-lg shadow-emerald-500/20"
-        >
-          Kirim Pemesanan via WhatsApp
-        </UButton>
-      </div>
-    </form>
-  </UCard>
+    </div>
+  </div>
 </template>
 
-<script setup>
-const { sendBooking } = useWhatsApp()
-
-const activeTab = ref('reguler')
-
-const tabs = [
-  {
-    id: 'reguler',
-    name: 'Travel Reguler',
-    icon: 'i-heroicons-arrows-right-left'
-  },
-  { id: 'carter', name: 'Carter Drop', icon: 'i-heroicons-truck' },
-  { id: 'tour', name: 'Paket Tour', icon: 'i-heroicons-globe-asia-australia' }
-]
-
-// State Form tunggal (Single Source of Truth)
-const formData = ref({
-  name: '',
-  type: 'reguler',
-  date: '',
-  passengers: 1,
-  origin: '',
-  destination: '',
-  vehicle: undefined,
-  tourPackage: undefined
-})
-
-// Ketika tab berganti, otomatis sesuaikan tipe layanannya
-watch(activeTab, (newTab) => {
-  formData.value.type = newTab
-})
-
-const handleSubmit = () => {
-  // Validasi dasar
-  if (!formData.value.name || !formData.value.date) {
-    alert('Mohon lengkapi Nama dan Tanggal Perjalanan terlebih dahulu!')
-    return
-  }
-
-  // Eksekusi kirim data form lewat WhatsApp
-  sendBooking(formData.value)
-}
-</script>
-
 <style scoped>
-.animate-fade-in {
-  animation: fadeIn 0.3s ease-out;
+/* .fade-enter-active,
+.fade-leave-active {
+  transition:
+    opacity 0.2s ease,
+    transform 0.15s ease;
 }
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(4px);
+} */
 </style>

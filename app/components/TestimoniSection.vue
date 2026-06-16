@@ -1,3 +1,59 @@
+<script setup lang="ts">
+const config = useRuntimeConfig()
+const travelName = config.public.travelName
+
+const testimonials = [
+  {
+    name: 'Rendy',
+    text: `Sudah beberapa kali pakai ${travelName} untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipin mengecewakan.`
+  },
+  {
+    name: 'Salam Rafi\'i',
+    text: `Sudah beberapa kali pakai ${travelName} untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipin mengecewakan.`
+  },
+  {
+    name: 'Susilo Adam\'s',
+    text: `Sudah beberapa kali pakai ${travelName} untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipin mengecewakan.`
+  },
+  {
+    name: 'Dewi Rahayu',
+    text: 'Pelayanan sangat memuaskan, driver selalu on-time dan kendaraan bersih. Sangat direkomendasikan!'
+  },
+  {
+    name: 'Budi Santoso',
+    text: 'Harga terjangkau dan pelayanan prima. Sudah langganan sejak 2022 dan tidak pernah kecewa.'
+  }
+]
+
+const currentIndex = ref(0)
+const visibleCount = ref(3)
+
+const updateVisibleCount = () => {
+  if (window.innerWidth < 640) visibleCount.value = 1
+  else if (window.innerWidth < 1024) visibleCount.value = 2
+  else visibleCount.value = 3
+}
+
+const maxIndex = computed(() => testimonials.length - visibleCount.value)
+
+const prev = () => {
+  currentIndex.value = Math.max(0, currentIndex.value - 1)
+}
+
+const next = () => {
+  currentIndex.value = Math.min(maxIndex.value, currentIndex.value + 1)
+}
+
+onMounted(() => {
+  updateVisibleCount()
+  window.addEventListener('resize', updateVisibleCount)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateVisibleCount)
+})
+</script>
+
 <template>
   <section class="py-16 bg-white">
     <div class="max-w-6xl mx-auto px-6">
@@ -15,7 +71,7 @@
             color="neutral"
             variant="ghost"
             size="lg"
-            class="absolute -left-5 top-1/2 -translate-y-1/2 z-10 shadow-md bg-white rounded-full"
+            class="absolute -left-5 top-1/2 -translate-y-1/2 z-10 shadow-md bg-white rounded-full hover:cursor-pointer"
             aria-label="Sebelumnya"
             @click="prev"
           />
@@ -81,7 +137,7 @@
             color="neutral"
             variant="ghost"
             size="lg"
-            class="absolute -right-5 top-1/2 -translate-y-1/2 z-10 shadow-md bg-white rounded-full"
+            class="absolute -right-5 top-1/2 -translate-y-1/2 z-10 shadow-md bg-white rounded-full hover:cursor-pointer"
             aria-label="Berikutnya"
             @click="next"
           />
@@ -104,56 +160,3 @@
     </div>
   </section>
 </template>
-
-<script setup lang="ts">
-const testimonials = [
-  {
-    name: 'Rendy',
-    text: 'Sudah beberapa kali pakai Siwakerta Travel untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipin mengecewakan.'
-  },
-  {
-    name: 'Salam Rafi\'i',
-    text: 'Sudah beberapa kali pakai Siwakerta Travel untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipin mengecewakan.'
-  },
-  {
-    name: 'Susilo Adam\'s',
-    text: 'Sudah beberapa kali pakai Siwakerta Travel untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipin mengecewakan.'
-  },
-  {
-    name: 'Dewi Rahayu',
-    text: 'Pelayanan sangat memuaskan, driver selalu on-time dan kendaraan bersih. Sangat direkomendasikan!'
-  },
-  {
-    name: 'Budi Santoso',
-    text: 'Harga terjangkau dan pelayanan prima. Sudah langganan sejak 2022 dan tidak pernah kecewa.'
-  }
-]
-
-const currentIndex = ref(0)
-const visibleCount = ref(3)
-
-const updateVisibleCount = () => {
-  if (window.innerWidth < 640) visibleCount.value = 1
-  else if (window.innerWidth < 1024) visibleCount.value = 2
-  else visibleCount.value = 3
-}
-
-const maxIndex = computed(() => testimonials.length - visibleCount.value)
-
-const prev = () => {
-  currentIndex.value = Math.max(0, currentIndex.value - 1)
-}
-
-const next = () => {
-  currentIndex.value = Math.min(maxIndex.value, currentIndex.value + 1)
-}
-
-onMounted(() => {
-  updateVisibleCount()
-  window.addEventListener('resize', updateVisibleCount)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('resize', updateVisibleCount)
-})
-</script>

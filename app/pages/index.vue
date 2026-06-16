@@ -1,9 +1,7 @@
 <template>
   <div>
     <HeroSection @open-booking="isOpen = true" />
-
     <ServiceFeatures />
-
     <PricingSection />
     <BookingSteps />
     <FleetsGalery />
@@ -11,12 +9,6 @@
     <TestimoniSection />
 
     <FaqSection />
-
-    <!-- <UModal v-model="isOpen">
-      <div class="p-6">
-        <BookingWidget />
-      </div>
-    </UModal> -->
   </div>
 </template>
 

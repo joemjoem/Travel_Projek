@@ -1,41 +1,80 @@
-// composables/useWhatsApp.ts
-export interface BookingForm {
+// ===== INTERFACES =====
+interface RegulerFormData {
   name: string
-  type: 'reguler' | 'carter' | 'tour'
-  origin?: string
-  destination?: string
-  vehicle?: string
-  tourPackage?: string // Tambahan untuk paket tour
+  route: string
   date: string
-  passengers: number
+  totalPessanger: number
+}
+
+interface CarterFormData {
+  name: string
+  route: string
+  unit: string
+  date: string
+}
+
+interface HolidayFormData {
+  name: string
+  holidayType: string
+  unit: string
+  date: string
 }
 
 export const useWhatsApp = () => {
-  const WA_NUMBER = '628xxxxxxxxx' // Ganti dengan nomor asli perusahaan
+  const config = useRuntimeConfig()
+  const waNumber = config.public.waNumber
+  const travelName = config.public.travelName
+  const defaultOpeningMessage = `Halo ${travelName}! Saya ingin booking travel`
 
-  const sendBooking = (form: BookingForm) => {
-    // 1. Pembuka teks
-    let messageBody = `Halo Siwakerta Travel! 👋\n\n`
-    messageBody += `Nama: ${form.name}\n`
-    messageBody += `Layanan: ${form.type.toUpperCase()}\n`
-
-    // 2. Kondisional berdasarkan tipe layanan (Arsitektur Teks Dinamis)
-    if (form.type === 'reguler') {
-      messageBody += `Rute: ${form.origin} → ${form.destination}\n`
-    } else if (form.type === 'carter') {
-      messageBody += `Armada: ${form.vehicle}\n`
-    } else if (form.type === 'tour') {
-      messageBody += `Paket Wisata: ${form.tourPackage}\n`
-    }
-
-    // 3. Penutup teks yang umum untuk semua tipe
-    messageBody += `Tanggal: ${form.date}\n`
-    messageBody += `Penumpang: ${form.passengers} orang\n\n`
-    messageBody += `Mohon konfirmasinya mengenai ketersediaan dan harga. Terima kasih!`
-
-    const encodedMessage = encodeURIComponent(messageBody)
-    window.open(`https://wa.me/${WA_NUMBER}?text=${encodedMessage}`, '_blank')
+  const formatDate = (dateStr: string) => {
+    return new Intl.DateTimeFormat('id-ID', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    }).format(new Date(dateStr))
   }
 
-  return { sendBooking }
+  function sendMessage(message: string) {
+    window.open(`https://wa.me/${waNumber}?text=${message}`, '_blank')
+  }
+
+  function sendMessageToAdmin() {
+    const defaultMessage = `Halo, saya ada pertanyaan terkait layanan ${travelName}.`
+    sendMessage(encodeURIComponent(defaultMessage))
+  }
+
+  function sendRegulerBookingForm(formData: RegulerFormData) {
+    let messageBody = `${defaultOpeningMessage}\n\n`
+    messageBody += `Tipe Travel: Reguler Travel\n`
+    messageBody += `Nama: ${formData.name}\n`
+    messageBody += `Rute: ${formData.route}\n`
+    messageBody += `Tanggal: ${formatDate(formData.date)}\n`
+    messageBody += `Jumlah booking: ${formData.totalPessanger} orang`
+
+    sendMessage(encodeURIComponent(messageBody))
+  }
+
+  function sendCarterBookingForm(formData: CarterFormData) {
+    let messageBody = `${defaultOpeningMessage}\n\n`
+    messageBody += `Tipe Travel: Carter\n`
+    messageBody += `Nama: ${formData.name}\n`
+    messageBody += `Rute: ${formData.route}\n`
+    messageBody += `Unit Kendaraan: ${formData.unit}\n`
+    messageBody += `Tanggal: ${formatDate(formData.date)}\n`
+
+    sendMessage(encodeURIComponent(messageBody))
+  }
+
+  function sendHolidayTravelBooking(formData: HolidayFormData) {
+    let messageBody = `${defaultOpeningMessage}\n\n`
+    messageBody += `Tipe Travel: Paket Wisata\n`
+    messageBody += `Nama: ${formData.name}\n`
+    messageBody += `Tujuan Wisata: ${formData.holidayType}\n`
+    messageBody += `Unit Kendaraan: ${formData.unit}\n`
+    messageBody += `Tanggal: ${formatDate(formData.date)}\n`
+
+    sendMessage(encodeURIComponent(messageBody))
+  }
+
+  return { sendMessageToAdmin, sendRegulerBookingForm, sendCarterBookingForm, sendHolidayTravelBooking }
 }

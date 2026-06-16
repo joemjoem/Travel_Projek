@@ -18,12 +18,17 @@ export default defineNuxtConfig({
       }
     }
   },
-
   css: ['~/assets/css/main.css'],
   site: {
     url: 'https://nama-web-travel-kamu.com',
     name: 'Travel Agent Indonesia',
     trailingSlash: true
+  },
+  runtimeConfig: {
+    public: {
+      waNumber: '',
+      travelName: ''
+    }
   },
 
   routeRules: {

@@ -1,3 +1,13 @@
+<script setup>
+import { useWhatsApp } from '@/composables/useWhatsApp'
+
+const { sendMessageToAdmin } = useWhatsApp()
+const config = useRuntimeConfig()
+const waNumber = config.public.waNumber
+const travelName = config.public.travelName
+const isFormModalOpen = ref(false)
+</script>
+
 <template>
   <section
     id="home"
@@ -22,8 +32,8 @@
           <div class="pt-2 flex flex-wrap items-center gap-6">
             <button
               type="button"
-              class="px-6 py-3 bg-white text-[#0b1c3d] font-bold rounded-md hover:bg-slate-100 transition shadow-lg text-sm md:text-base"
-              @click="$emit('open-booking')"
+              class="bg-emerald-500 px-6 py-3 text-[#0b1c3d] font-bold rounded-md hover:bg-emerald-400 transition shadow-lg text-sm md:text-base hover:cursor-pointer"
+              @click="isFormModalOpen = true"
             >
               Booking Sekarang
             </button>
@@ -42,11 +52,6 @@
         </div>
 
         <div class="lg:col-span-5 relative z-20 mt-8 lg:mt-12 lg:-mb-66">
-          <!-- <img
-            src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=800"
-            alt="Armada Siwakerta Travel"
-            class="w-full h-auto object-cover rounded-xl shadow-2xl lg:scale-110 transform origin-bottom-left"
-          > -->
           <NuxtImg
             src="/image/car_group.png"
             alt="Armada Siwakerta Travel"
@@ -64,26 +69,43 @@
       >
         <span class="text-slate-400 font-bold tracking-wider uppercase text-2xs">Sosial Media Kami:</span>
 
-        <div class="flex items-center gap-2">
+        <div
+          class="flex items-center gap-2 text-slate-700 hover:text-slate-900 hover:font-semibold"
+        >
           <UIcon
             name="i-lucide-instagram"
-            class="w-5 h-5 text-[#0b1c3d]"
+            class="w-5 h-5"
           />
-          <span class="text-slate-700">SIWAKERTA_TRAVEL</span>
+          <a
+            href="https://www.instagram.com/agjayatravel?igsh=d3llZ2l2dWs5OWd0"
+            target="_blank"
+            class=""
+          >{{ travelName }}</a>
         </div>
 
-        <div class="flex items-center gap-2">
+        <div
+          class="flex items-center gap-2 text-slate-700 hover:text-slate-900 hover:font-semibold hover:cursor-pointer"
+        >
           <UIcon
             name="i-lucide-phone"
-            class="w-5 h-5 text-[#0b1c3d]"
+            class="w-5 h-5"
           />
-          <span class="text-slate-700">0899-9890-9999</span>
+          <span
+            class=""
+            @click="sendMessageToAdmin"
+          >{{ waNumber }}</span>
         </div>
       </div>
     </div>
+    <UModal
+      v-model:open="isFormModalOpen"
+      :ui="{
+        body: '!p-0'
+      }"
+    >
+      <template #content>
+        <BookingWidget @close-modal="isFormModalOpen = false" />
+      </template>
+    </UModal>
   </section>
 </template>
-
-<script setup>
-defineEmits(['open-booking'])
-</script>

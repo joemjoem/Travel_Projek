@@ -1,3 +1,13 @@
+<script setup>
+import { useWhatsApp } from '@/composables/useWhatsApp'
+
+const { sendMessageToAdmin } = useWhatsApp()
+
+const config = useRuntimeConfig()
+const waNumber = config.public.waNumber
+const travelName = config.public.travelName
+</script>
+
 <template>
   <footer
     class="bg-slate-950 text-slate-400 pt-16 pb-8 border-t border-slate-900"
@@ -5,12 +15,12 @@
     <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
       <div class="space-y-4">
         <div class="flex items-center gap-2 text-white">
-          <div
+          <!-- <div
             class="w-8 h-8 bg-emerald-500 rounded flex items-center justify-center font-bold text-slate-950"
           >
             S
-          </div>
-          <span class="font-bold tracking-wider text-lg">PT. SIWAKERTA</span>
+          </div> -->
+          <span class="font-bold tracking-wider text-lg">{{ travelName }}</span>
         </div>
         <p class="text-xs leading-relaxed text-slate-500">
           Penyedia layanan transportasi dan travel terpercaya di Jawa Timur.
@@ -35,18 +45,16 @@
               class="hover:text-emerald-400 transition"
             >Layanan Travel</a>
           </li>
-          <li>
-            <a
-              href="#tentang"
-              class="hover:text-emerald-400 transition"
-            >Tentang Kami</a>
+          <!-- <li>
+            <a href="#tentang" class="hover:text-emerald-400 transition"
+              >Tentang Kami</a
+            >
           </li>
           <li>
-            <a
-              href="#kontak"
-              class="hover:text-emerald-400 transition"
-            >Kontak CS</a>
-          </li>
+            <a href="#kontak" class="hover:text-emerald-400 transition"
+              >Kontak CS</a
+            >
+          </li> -->
         </ul>
       </div>
 
@@ -58,12 +66,15 @@
           Jl. Raya Siwakerta No. 123,<br>
           Surabaya, Jawa Timur, Indonesia
         </p>
-        <div class="pt-2 flex items-center gap-2 text-xs text-emerald-400">
+        <div
+          class="pt-2 flex items-center gap-2 text-xs text-emerald-400 hover:cursor-pointer hover:text-emrald-300"
+          @click="sendMessageToAdmin"
+        >
           <UIcon
             name="i-heroicons-phone"
             class="w-4 h-4"
           />
-          <span>+62 812-3456-7890</span>
+          <span>{{ waNumber }}</span>
         </div>
       </div>
     </div>

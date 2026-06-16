@@ -1,14 +1,35 @@
+<script setup>
+const config = useRuntimeConfig()
+const travelName = config.public.travelName
+
+const features = [
+  {
+    title: 'Travel Reguler',
+    desc: 'Layanan antar jemput penumpang rute tetap antar kota secara aman, terjadwal, dan nyaman.'
+  },
+  {
+    title: 'Carter Drop',
+    desc: 'Sewa mobil pribadi sekaligus driver untuk kebutuhan drop off satu kali jalan luar/dalam kota.'
+  },
+  // {
+  //   title: 'Kirim Paket',
+  //   desc: 'Pengiriman paket kilat semalam sampai menggunakan jaringan armada travel operasional kami.'
+  // },
+  {
+    title: 'Wisata / Tour',
+    desc: 'Paket perjalanan wisata keliling destinasi populer dengan fasilitas lengkap tanpa ribet.'
+  }
+]
+</script>
+
 <template>
-  <section
-    id="layanan"
-    class="py-20 bg-white dark:bg-slate-900"
-  >
+  <section class="py-20 bg-white dark:bg-slate-900">
     <div class="container mx-auto px-4">
       <div class="text-center max-w-xl mx-auto mb-16">
         <h2
           class="text-xs font-bold uppercase tracking-widest text-emerald-600 mb-2"
         >
-          SIWAKERTA TRAVEL
+          {{ travelName }}
         </h2>
         <p
           class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white"
@@ -48,24 +69,3 @@
     </div>
   </section>
 </template>
-
-<script setup>
-const features = [
-  {
-    title: 'Travel Reguler',
-    desc: 'Layanan antar jemput penumpang rute tetap antar kota secara aman, terjadwal, dan nyaman.'
-  },
-  {
-    title: 'Carter Drop',
-    desc: 'Sewa mobil pribadi sekaligus driver untuk kebutuhan drop off satu kali jalan luar/dalam kota.'
-  },
-  {
-    title: 'Kirim Paket',
-    desc: 'Pengiriman paket kilat semalam sampai menggunakan jaringan armada travel operasional kami.'
-  },
-  {
-    title: 'Wisata / Tour',
-    desc: 'Paket perjalanan wisata keliling destinasi populer dengan fasilitas lengkap tanpa ribet.'
-  }
-]
-</script>

@@ -29,6 +29,7 @@ useSeoMeta({
 
     <main>
       <NuxtPage />
+      <FloatingButton />
     </main>
 
     <FooterSection />
