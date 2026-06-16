@@ -13,5 +13,5 @@
 </template>
 
 <script setup>
-const isOpen = ref(false);
+const isOpen = ref(false)
 </script>

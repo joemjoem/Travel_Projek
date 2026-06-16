@@ -1,26 +1,27 @@
 <script setup>
-const config = useRuntimeConfig();
-const travelName = config.public.travelName;
+const config = useRuntimeConfig()
+const travelName = config.public.travelName
 
 const features = [
   {
-    title: "Travel Reguler",
-    desc: "Layanan antar jemput penumpang rute tetap antar kota secara aman, terjadwal, dan nyaman.",
+    title: 'Travel Reguler',
+    desc: 'Layanan antar jemput penumpang rute tetap antar kota secara aman, terjadwal, dan nyaman.'
   },
   {
-    title: "Carter Drop",
-    desc: "Sewa mobil pribadi sekaligus driver untuk kebutuhan drop off satu kali jalan luar/dalam kota.",
+    title: 'Carter Drop',
+    desc: 'Sewa mobil pribadi sekaligus driver untuk kebutuhan drop off satu kali jalan luar/dalam kota.'
   },
   // {
   //   title: 'Kirim Paket',
   //   desc: 'Pengiriman paket kilat semalam sampai menggunakan jaringan armada travel operasional kami.'
   // },
   {
-    title: "Wisata / Tour",
-    desc: "Paket perjalanan wisata keliling destinasi populer dengan fasilitas lengkap tanpa ribet.",
-  },
-];
+    title: 'Wisata / Tour',
+    desc: 'Paket perjalanan wisata keliling destinasi populer dengan fasilitas lengkap tanpa ribet.'
+  }
+]
 </script>
+
 <template>
   <section class="py-20 bg-white dark:bg-slate-900">
     <div class="container mx-auto px-4">
@@ -47,7 +48,10 @@ const features = [
             <div
               class="w-8 h-8 bg-slate-900 text-white rounded flex items-center justify-center"
             >
-              <UIcon name="i-heroicons-check" class="w-5 h-5" />
+              <UIcon
+                name="i-heroicons-check"
+                class="w-5 h-5"
+              />
             </div>
           </div>
           <div>

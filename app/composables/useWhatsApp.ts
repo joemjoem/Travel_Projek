@@ -34,12 +34,11 @@ export const useWhatsApp = () => {
     }).format(new Date(dateStr))
   }
 
-  function sendMessage(message: string){
+  function sendMessage(message: string) {
     window.open(`https://wa.me/${waNumber}?text=${message}`, '_blank')
-  
   }
 
-  function sendMessageToAdmin(){
+  function sendMessageToAdmin() {
     const defaultMessage = `Halo, saya ada pertanyaan terkait layanan ${travelName}.`
     sendMessage(encodeURIComponent(defaultMessage))
   }

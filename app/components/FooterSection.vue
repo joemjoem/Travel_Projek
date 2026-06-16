@@ -1,11 +1,13 @@
 <script setup>
-import { useWhatsApp } from "@/composables/useWhatsApp";
-const { sendMessageToAdmin } = useWhatsApp();
+import { useWhatsApp } from '@/composables/useWhatsApp'
 
-const config = useRuntimeConfig();
-const waNumber = config.public.waNumber;
-const travelName = config.public.travelName;
+const { sendMessageToAdmin } = useWhatsApp()
+
+const config = useRuntimeConfig()
+const waNumber = config.public.waNumber
+const travelName = config.public.travelName
 </script>
+
 <template>
   <footer
     class="bg-slate-950 text-slate-400 pt-16 pb-8 border-t border-slate-900"
@@ -32,12 +34,16 @@ const travelName = config.public.travelName;
         </h4>
         <ul class="text-xs space-y-2">
           <li>
-            <a href="#home" class="hover:text-emerald-400 transition">Home</a>
+            <a
+              href="#home"
+              class="hover:text-emerald-400 transition"
+            >Home</a>
           </li>
           <li>
-            <a href="#layanan" class="hover:text-emerald-400 transition"
-              >Layanan Travel</a
-            >
+            <a
+              href="#layanan"
+              class="hover:text-emerald-400 transition"
+            >Layanan Travel</a>
           </li>
           <!-- <li>
             <a href="#tentang" class="hover:text-emerald-400 transition"
@@ -57,14 +63,17 @@ const travelName = config.public.travelName;
           Kantor Pusat
         </h4>
         <p class="text-xs text-slate-500 leading-relaxed">
-          Jl. Raya Siwakerta No. 123,<br />
+          Jl. Raya Siwakerta No. 123,<br>
           Surabaya, Jawa Timur, Indonesia
         </p>
         <div
           class="pt-2 flex items-center gap-2 text-xs text-emerald-400 hover:cursor-pointer hover:text-emrald-300"
           @click="sendMessageToAdmin"
         >
-          <UIcon name="i-heroicons-phone" class="w-4 h-4" />
+          <UIcon
+            name="i-heroicons-phone"
+            class="w-4 h-4"
+          />
           <span>{{ waNumber }}</span>
         </div>
       </div>

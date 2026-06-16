@@ -1,11 +1,11 @@
 <script setup>
-import { useWhatsApp } from "@/composables/useWhatsApp";
+import { useWhatsApp } from '@/composables/useWhatsApp'
 
-const { sendMessageToAdmin } = useWhatsApp();
-const config = useRuntimeConfig();
-const waNumber = config.public.waNumber;
-const travelName = config.public.travelName;
-const isFormModalOpen = ref(false);
+const { sendMessageToAdmin } = useWhatsApp()
+const config = useRuntimeConfig()
+const waNumber = config.public.waNumber
+const travelName = config.public.travelName
+const isFormModalOpen = ref(false)
 </script>
 
 <template>
@@ -43,7 +43,10 @@ const isFormModalOpen = ref(false);
               class="flex items-center gap-2 font-bold text-white hover:text-slate-300 transition text-sm md:text-base"
             >
               Lihat Layanan
-              <UIcon name="i-heroicons-arrow-long-right" class="w-5 h-5" />
+              <UIcon
+                name="i-heroicons-arrow-long-right"
+                class="w-5 h-5"
+              />
             </a>
           </div>
         </div>
@@ -64,34 +67,40 @@ const isFormModalOpen = ref(false);
       <div
         class="flex items-center justify-center gap-8 text-xs md:text-sm font-medium"
       >
-        <span class="text-slate-400 font-bold tracking-wider uppercase text-2xs"
-          >Sosial Media Kami:</span
-        >
+        <span class="text-slate-400 font-bold tracking-wider uppercase text-2xs">Sosial Media Kami:</span>
 
         <div
           class="flex items-center gap-2 text-slate-700 hover:text-slate-900 hover:font-semibold"
         >
-          <UIcon name="i-lucide-instagram" class="w-5 h-5" />
+          <UIcon
+            name="i-lucide-instagram"
+            class="w-5 h-5"
+          />
           <a
             href="https://www.instagram.com/agjayatravel?igsh=d3llZ2l2dWs5OWd0"
             target="_blank"
             class=""
-            >{{ travelName }}</a
-          >
+          >{{ travelName }}</a>
         </div>
 
         <div
           class="flex items-center gap-2 text-slate-700 hover:text-slate-900 hover:font-semibold hover:cursor-pointer"
         >
-          <UIcon name="i-lucide-phone" class="w-5 h-5" />
-          <span class="" @click="sendMessageToAdmin">{{ waNumber }}</span>
+          <UIcon
+            name="i-lucide-phone"
+            class="w-5 h-5"
+          />
+          <span
+            class=""
+            @click="sendMessageToAdmin"
+          >{{ waNumber }}</span>
         </div>
       </div>
     </div>
     <UModal
       v-model:open="isFormModalOpen"
       :ui="{
-        body: '!p-0',
+        body: '!p-0'
       }"
     >
       <template #content>
