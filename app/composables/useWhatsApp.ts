@@ -22,7 +22,17 @@ interface HolidayFormData {
 
 export const useWhatsApp = () => {
   const config = useRuntimeConfig()
-  const waNumber = config.public.waNumber
+  const waNumber = computed(() => {
+    const phone = config.public.waNumber
+    if (!phone) return ''
+
+    if (phone.startsWith('0')) {
+      return '62' + phone.slice(1)
+    }
+
+    return phone
+  })
+  console.log(waNumber.value)
   const travelName = config.public.travelName
   const defaultOpeningMessage = `Halo ${travelName}! Saya ingin booking travel`
 
@@ -35,7 +45,7 @@ export const useWhatsApp = () => {
   }
 
   function sendMessage(message: string) {
-    window.open(`https://wa.me/${waNumber}?text=${message}`, '_blank')
+    window.open(`https://wa.me/${waNumber.value}?text=${message}`, '_blank')
   }
 
   function sendMessageToAdmin() {
