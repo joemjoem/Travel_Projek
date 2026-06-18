@@ -48,8 +48,3 @@
 html, :root {
   color-scheme: light !important;
 }
-
-.dark {
-  background-color: #ffffff !important; 
-  color: #1f2937 !important; 
-}
