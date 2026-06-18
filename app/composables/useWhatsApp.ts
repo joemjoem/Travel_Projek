@@ -32,7 +32,6 @@ export const useWhatsApp = () => {
 
     return phone
   })
-  console.log(waNumber.value)
   const travelName = config.public.travelName
   const defaultOpeningMessage = `Halo ${travelName}! Saya ingin booking travel`
 
