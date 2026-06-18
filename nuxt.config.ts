@@ -24,6 +24,9 @@ export default defineNuxtConfig({
     name: 'Travel Agent Indonesia',
     trailingSlash: true
   },
+  ui: {
+    colorMode: false
+  },
   runtimeConfig: {
     public: {
       waNumber: '',
