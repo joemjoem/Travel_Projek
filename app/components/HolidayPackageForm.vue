@@ -62,30 +62,49 @@ const selectedPrice = computed(() => {
 })
 const formatPrice = (price: number) => 'Rp ' + price.toLocaleString('id-ID')
 
-const state = reactive({ name: '', unit: '', date: '' })
+// ===== STATE =====
+// Ditambahkan pickupLocation dengan nilai awal null
+const state = reactive({
+  name: '',
+  unit: '',
+  date: '',
+  pickupLocation: null
+})
 
 watch(
   () => props.holidayType,
   () => {
     state.unit = ''
+    state.pickupLocation = null
   }
 )
 
+// ===== VALIDASI SCHEMA =====
+// Menambahkan validasi wajib isi untuk lokasi jemput
 const schema = z.object({
   name: z.string().min(3, 'Nama tidak boleh kosong'),
   unit: z.string().min(1, 'Kendaraan wajib dipilih'),
-  date: z.string().min(1, 'Tanggal perjalanan wajib diisi')
+  date: z.string().min(1, 'Tanggal perjalanan wajib diisi'),
+  pickupLocation: z.any().refine(val => !!val, {
+    message: 'Titik jemput wajib ditentukan di peta'
+  })
 })
 
 interface HolidayFormData {
   name: string
   unit: string
   date: string
+  // pickupLocation: any
 }
 
 async function onSubmit(event: HolidayFormData) {
-  sendHolidayTravelBooking({ ...event, holidayType: props?.holidayType })
+  sendHolidayTravelBooking({
+    ...event,
+    holidayType: props?.holidayType
+    // price: selectedPrice.value,
+  })
 }
+
 function closeModal() {
   emits('closeModal')
 }
@@ -97,42 +116,6 @@ const customInputUi = {
 
 <template>
   <div class="w-full max-w-lg mx-auto p-2 sm:p-4">
-    <!-- Header — hanya tampil di modal -->
-    <div
-      v-if="showCancel"
-      class="flex items-center justify-between gap-3 p-4"
-    >
-      <div class="flex items-center gap-2">
-        <div
-          class="flex items-center justify-center p-2 bg-emerald-50 text-emerald-600 rounded-lg dark:bg-emerald-950/50 dark:text-emerald-400"
-        >
-          <UIcon
-            name="i-heroicons-ticket"
-            class="w-6 h-6"
-          />
-        </div>
-        <div>
-          <h3
-            class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white"
-          >
-            Form Booking Paket Wisata
-          </h3>
-          <p class="text-xs text-slate-500">
-            Silakan lengkapi data perjalanan Anda
-          </p>
-        </div>
-      </div>
-      <div
-        class="p-1 hover:bg-slate-100/30 flex items-center justify-center rounded hover:cursor-pointer"
-        @click="closeModal"
-      >
-        <UIcon
-          name="i-lucide-x"
-          class="w-6 h-6"
-        />
-      </div>
-    </div>
-
     <UForm
       :schema="schema"
       :state="state"
@@ -140,7 +123,6 @@ const customInputUi = {
       @submit="(e) => onSubmit(e?.data)"
     >
       <div class="w-full h-80 md:h-fit overflow-auto p-4 space-y-4">
-        <!-- Info Paket -->
         <div
           v-if="currentPackage && !showCancel"
           class="bg-slate-50 border border-slate-200 rounded-lg px-4 py-3"
@@ -180,6 +162,16 @@ const customInputUi = {
             placeholder="Pilih kendaraan..."
             :ui="customInputUi"
             class="w-full"
+          />
+        </UFormField>
+
+        <UFormField
+          label="Titik Penjemputan Spesifik"
+          name="pickupLocation"
+        >
+          <LocationPicker
+            v-model="state.pickupLocation"
+            placeholder="Cari jalan / hotel / lokasi jemput..."
           />
         </UFormField>
 

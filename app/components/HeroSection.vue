@@ -99,6 +99,7 @@ const isFormModalOpen = ref(false)
     </div>
     <UModal
       v-model:open="isFormModalOpen"
+      scrollable
       :ui="{
         body: '!p-0'
       }"
