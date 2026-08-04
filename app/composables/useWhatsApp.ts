@@ -1,16 +1,22 @@
 // ===== INTERFACES =====
 interface RegulerFormData {
   name: string
-  route: string
+  originLabel: string
+  destLabel: string
   date: string
   totalPessanger: number
+  pickupLocation: { address: string | null, lat: number | null, lng: number | null } | null
+  dropoffLocation: { address: string | null, lat: number | null, lng: number | null } | null
 }
 
 interface CarterFormData {
   name: string
+  pickupLabel: string
   route: string
-  unit: string
   date: string
+  unitType: string
+  pickupLocation: { address: string | null, lat: number | null, lng: number | null } | null
+  dropoffLocation: { address: string | null, lat: number | null, lng: number | null } | null
 }
 
 interface HolidayFormData {
@@ -18,6 +24,7 @@ interface HolidayFormData {
   holidayType: string
   unit: string
   date: string
+  pickupLocation: { address: string | null, lat: number | null, lng: number | null } | null
 }
 
 export const useWhatsApp = () => {
@@ -52,11 +59,27 @@ export const useWhatsApp = () => {
     sendMessage(encodeURIComponent(defaultMessage))
   }
 
+  function generateMapsUrl(lat: number | null, lng: number | null) {
+    return `https://maps.google.com/?q=${lat},${lng}`
+  }
+
   function sendRegulerBookingForm(formData: RegulerFormData) {
     let messageBody = `${defaultOpeningMessage}\n\n`
     messageBody += `Tipe Travel: Reguler Travel\n`
     messageBody += `Nama: ${formData.name}\n`
-    messageBody += `Rute: ${formData.route}\n`
+
+    messageBody += `Titik Penjemputan: ${formData.originLabel}\n`
+    if (formData.pickupLocation) {
+      messageBody += `Alamat: ${formData.pickupLocation.address || '-'}\n`
+      messageBody += `link: ${generateMapsUrl(formData.pickupLocation.lat, formData.pickupLocation.lng)}\n`
+    }
+
+    messageBody += `Titik Tujuan: ${formData.destLabel}\n`
+    if (formData.dropoffLocation) {
+      messageBody += `Alamat: ${formData.dropoffLocation.address || '-'}\n`
+      messageBody += `link: ${generateMapsUrl(formData.dropoffLocation.lat, formData.dropoffLocation.lng)}\n`
+    }
+
     messageBody += `Tanggal: ${formatDate(formData.date)}\n`
     messageBody += `Jumlah booking: ${formData.totalPessanger} orang`
 
@@ -67,8 +90,19 @@ export const useWhatsApp = () => {
     let messageBody = `${defaultOpeningMessage}\n\n`
     messageBody += `Tipe Travel: Carter\n`
     messageBody += `Nama: ${formData.name}\n`
+
+    messageBody += `Titik Penjemputan: ${formData.pickupLabel}\n`
+    if (formData.pickupLocation) {
+      messageBody += `Alamat: ${formData.pickupLocation.address || '-'}\n`
+      messageBody += `link: ${generateMapsUrl(formData.pickupLocation.lat, formData.pickupLocation.lng)}\n`
+    }
+
     messageBody += `Rute: ${formData.route}\n`
-    messageBody += `Unit Kendaraan: ${formData.unit}\n`
+    if (formData.dropoffLocation) {
+      messageBody += `Alamat: ${formData.dropoffLocation.address || '-'}\n`
+      messageBody += `link: ${generateMapsUrl(formData.dropoffLocation.lat, formData.dropoffLocation.lng)}\n`
+    }
+    messageBody += `Unit Kendaraan: ${formData.unitType}\n`
     messageBody += `Tanggal: ${formatDate(formData.date)}\n`
 
     sendMessage(encodeURIComponent(messageBody))
@@ -78,6 +112,12 @@ export const useWhatsApp = () => {
     let messageBody = `${defaultOpeningMessage}\n\n`
     messageBody += `Tipe Travel: Paket Wisata\n`
     messageBody += `Nama: ${formData.name}\n`
+
+    if (formData.pickupLocation) {
+      messageBody += `Alamat Penjemputan: ${formData.pickupLocation.address || '-'}\n`
+      messageBody += `link: ${generateMapsUrl(formData.pickupLocation.lat, formData.pickupLocation.lng)}\n`
+    }
+
     messageBody += `Tujuan Wisata: ${formData.holidayType}\n`
     messageBody += `Unit Kendaraan: ${formData.unit}\n`
     messageBody += `Tanggal: ${formatDate(formData.date)}\n`
