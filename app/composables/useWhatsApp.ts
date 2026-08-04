@@ -24,6 +24,7 @@ interface HolidayFormData {
   holidayType: string
   unit: string
   date: string
+  pickupLocation: { address: string | null, lat: number | null, lng: number | null } | null
 }
 
 export const useWhatsApp = () => {
@@ -109,6 +110,12 @@ export const useWhatsApp = () => {
     let messageBody = `${defaultOpeningMessage}\n\n`
     messageBody += `Tipe Travel: Paket Wisata\n`
     messageBody += `Nama: ${formData.name}\n`
+
+    if (formData.pickupLocation) {
+      messageBody += `Alamat Penjemputan: ${formData.pickupLocation.address || '-'}\n`
+      messageBody += `link: ${generateMapsUrl(formData.pickupLocation.lat, formData.pickupLocation.lng)}\n`
+    }
+
     messageBody += `Tujuan Wisata: ${formData.holidayType}\n`
     messageBody += `Unit Kendaraan: ${formData.unit}\n`
     messageBody += `Tanggal: ${formatDate(formData.date)}\n`

@@ -1,117 +1,120 @@
 <script setup lang="ts">
-import { useWhatsApp } from '@/composables/useWhatsApp'
-import { z } from 'zod'
+import { useWhatsApp } from "@/composables/useWhatsApp";
+import { z } from "zod";
 
 const props = defineProps<{
-  holidayType: string
-  showCancel?: boolean
-}>()
+  holidayType: string;
+  showCancel?: boolean;
+}>();
 
-const emits = defineEmits(['closeModal'])
-const { sendHolidayTravelBooking } = useWhatsApp()
+const emits = defineEmits(["closeModal"]);
+const { sendHolidayTravelBooking } = useWhatsApp();
 
 const wisataData: Record<
   string,
   {
-    label: string
-    desc: string
-    suffix: string
-    units: { value: string, label: string, price: number }[]
+    label: string;
+    desc: string;
+    suffix: string;
+    units: { value: string; label: string; price: number }[];
   }
 > = {
-  'wisata-batu': {
-    label: 'Wisata Kota Batu',
-    desc: '08:00 - 20:00 · Driver, Mobil, BBM',
-    suffix: '/hari',
+  "wisata-batu": {
+    label: "Wisata Kota Batu",
+    desc: "08:00 - 20:00 · Driver, Mobil, BBM",
+    suffix: "/hari",
     units: [
-      { value: 'calya', label: 'Calya / Avanza', price: 600000 },
-      { value: 'innova', label: 'Innova Reborn', price: 800000 },
-      { value: 'hiace', label: 'Hiace / Elf', price: 1200000 }
-    ]
+      { value: "calya", label: "Calya / Avanza", price: 600000 },
+      { value: "innova", label: "Innova Reborn", price: 800000 },
+      { value: "hiace", label: "Hiace / Elf", price: 1200000 },
+    ],
   },
-  'bromo': {
-    label: 'Wisata Gunung Bromo',
-    desc: 'Sunrise / Sunset · Jeep, Mobil, Driver, BBM',
-    suffix: '',
+  bromo: {
+    label: "Wisata Gunung Bromo",
+    desc: "Sunrise / Sunset · Jeep, Mobil, Driver, BBM",
+    suffix: "",
     units: [
-      { value: 'avanza', label: 'Avanza', price: 1500000 },
-      { value: 'innova', label: 'Innova Reborn', price: 1700000 },
-      { value: 'hiace', label: 'Hiace / Elf', price: 2200000 }
-    ]
+      { value: "avanza", label: "Avanza", price: 1500000 },
+      { value: "innova", label: "Innova Reborn", price: 1700000 },
+      { value: "hiace", label: "Hiace / Elf", price: 2200000 },
+    ],
   },
-  'batu-bromo': {
-    label: 'Batu - Bromo (2D1N)',
-    desc: 'Jeep, Mobil, Driver, BBM',
-    suffix: '',
+  "batu-bromo": {
+    label: "Batu - Bromo (2D1N)",
+    desc: "Jeep, Mobil, Driver, BBM",
+    suffix: "",
     units: [
-      { value: 'avanza', label: 'Avanza', price: 2400000 },
-      { value: 'innova', label: 'Innova Reborn', price: 2700000 },
-      { value: 'hiace', label: 'Hiace / Elf', price: 3500000 }
-    ]
-  }
-}
+      { value: "avanza", label: "Avanza", price: 2400000 },
+      { value: "innova", label: "Innova Reborn", price: 2700000 },
+      { value: "hiace", label: "Hiace / Elf", price: 3500000 },
+    ],
+  },
+};
 
-const currentPackage = computed(() => wisataData[props.holidayType] ?? null)
-const unitOptions = computed(() => currentPackage.value?.units ?? [])
+const currentPackage = computed(() => wisataData[props.holidayType] ?? null);
+const unitOptions = computed(() => currentPackage.value?.units ?? []);
 const selectedPrice = computed(() => {
-  if (!state.unit) return null
+  if (!state.unit) return null;
   return (
-    currentPackage.value?.units.find(u => u.value === state.unit)?.price
-    ?? null
-  )
-})
-const formatPrice = (price: number) => 'Rp ' + price.toLocaleString('id-ID')
+    currentPackage.value?.units.find((u) => u.value === state.unit)?.price ??
+    null
+  );
+});
+const formatPrice = (price: number) => "Rp " + price.toLocaleString("id-ID");
 
 // ===== STATE =====
 // Ditambahkan pickupLocation dengan nilai awal null
 const state = reactive({
-  name: '',
-  unit: '',
-  date: '',
-  pickupLocation: null
-})
+  name: "",
+  unit: "",
+  date: "",
+  pickupLocation: null,
+});
 
 watch(
   () => props.holidayType,
   () => {
-    state.unit = ''
-    state.pickupLocation = null
-  }
-)
+    state.unit = "";
+    state.pickupLocation = null;
+  },
+);
 
 // ===== VALIDASI SCHEMA =====
 // Menambahkan validasi wajib isi untuk lokasi jemput
 const schema = z.object({
-  name: z.string().min(3, 'Nama tidak boleh kosong'),
-  unit: z.string().min(1, 'Kendaraan wajib dipilih'),
-  date: z.string().min(1, 'Tanggal perjalanan wajib diisi'),
-  pickupLocation: z.any().refine(val => !!val, {
-    message: 'Titik jemput wajib ditentukan di peta'
-  })
-})
+  name: z.string().min(3, "Nama tidak boleh kosong"),
+  unit: z.string().min(1, "Kendaraan wajib dipilih"),
+  date: z.string().min(1, "Tanggal perjalanan wajib diisi"),
+  pickupLocation: z.any().refine((val) => !!val, {
+    message: "Titik jemput wajib ditentukan di peta",
+  }),
+});
 
 interface HolidayFormData {
-  name: string
-  unit: string
-  date: string
-  // pickupLocation: any
+  name: string;
+  unit: string;
+  date: string;
+  pickupLocation: any;
 }
 
 async function onSubmit(event: HolidayFormData) {
   sendHolidayTravelBooking({
-    ...event,
-    holidayType: props?.holidayType
+    name: event.name,
+    unit: event.unit,
+    date: event.date,
+    holidayType: props?.holidayType,
+    pickupLocation: event.pickupLocation,
     // price: selectedPrice.value,
-  })
+  });
 }
 
 function closeModal() {
-  emits('closeModal')
+  emits("closeModal");
 }
 
 const customInputUi = {
-  base: 'focus:!border-[#0b1c3d] focus:!ring-[#0b1c3d] dark:!focus:border-[#0b1c3d] dark:focus:!ring-[#0b1c3d]'
-}
+  base: "focus:!border-[#0b1c3d] focus:!ring-[#0b1c3d] dark:!focus:border-[#0b1c3d] dark:focus:!ring-[#0b1c3d]",
+};
 </script>
 
 <template>
@@ -127,9 +130,7 @@ const customInputUi = {
           v-if="currentPackage && !showCancel"
           class="bg-slate-50 border border-slate-200 rounded-lg px-4 py-3"
         >
-          <p class="text-xs text-slate-400 mb-1">
-            Paket dipilih
-          </p>
+          <p class="text-xs text-slate-400 mb-1">Paket dipilih</p>
           <p class="text-sm font-bold text-slate-800">
             {{ currentPackage.label }}
           </p>
@@ -138,10 +139,7 @@ const customInputUi = {
           </p>
         </div>
 
-        <UFormField
-          label="Nama Lengkap"
-          name="name"
-        >
+        <UFormField label="Nama Lengkap" name="name">
           <UInput
             v-model="state.name"
             :ui="customInputUi"
@@ -150,10 +148,7 @@ const customInputUi = {
           />
         </UFormField>
 
-        <UFormField
-          label="Tipe Kendaraan"
-          name="unit"
-        >
+        <UFormField label="Tipe Kendaraan" name="unit">
           <USelect
             v-model="state.unit"
             :items="unitOptions"
@@ -165,10 +160,7 @@ const customInputUi = {
           />
         </UFormField>
 
-        <UFormField
-          label="Titik Penjemputan Spesifik"
-          name="pickupLocation"
-        >
+        <UFormField label="Titik Penjemputan Spesifik" name="pickupLocation">
           <LocationPicker
             v-model="state.pickupLocation"
             placeholder="Cari jalan / hotel / lokasi jemput..."
@@ -181,9 +173,7 @@ const customInputUi = {
             class="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-lg px-4 py-3"
           >
             <div>
-              <p class="text-xs text-slate-400">
-                Estimasi harga
-              </p>
+              <p class="text-xs text-slate-400">Estimasi harga</p>
               <p class="text-sm font-bold text-slate-800">
                 {{ formatPrice(selectedPrice) }}{{ currentPackage?.suffix }}
               </p>
@@ -194,10 +184,7 @@ const customInputUi = {
           </div>
         </Transition>
 
-        <UFormField
-          label="Tanggal Perjalanan"
-          name="date"
-        >
+        <UFormField label="Tanggal Perjalanan" name="date">
           <UInput
             v-model="state.date"
             type="date"
@@ -219,11 +206,7 @@ const customInputUi = {
           >
             Batal
           </UButton>
-          <UButton
-            type="submit"
-            color="primary"
-            class="justify-center"
-          >
+          <UButton type="submit" color="primary" class="justify-center">
             Pesan via WhatsApp
           </UButton>
         </div>
