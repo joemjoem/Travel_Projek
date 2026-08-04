@@ -78,7 +78,7 @@ function closeModal() {
       <!-- REGULER -->
       <RegulerPacketForm
         v-show="activeTab === 'reguler'"
-        :show-cancel="false"
+        :show-cancel="true"
         class="w-full"
         @close-modal="closeModal"
       />

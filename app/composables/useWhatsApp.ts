@@ -1,9 +1,12 @@
 // ===== INTERFACES =====
 interface RegulerFormData {
   name: string
-  route: string
+  originLabel: string
+  destLabel: string
   date: string
   totalPessanger: number
+  pickupLocation: { lat: number | null, lng: number | null } | null
+  dropoffLocation: { lat: number | null, lng: number | null } | null
 }
 
 interface CarterFormData {
@@ -52,11 +55,25 @@ export const useWhatsApp = () => {
     sendMessage(encodeURIComponent(defaultMessage))
   }
 
+  function generateMapsUrl(lat: number | null, lng: number | null) {
+    return `https://maps.google.com/?q=${lat},${lng}`
+  }
+
   function sendRegulerBookingForm(formData: RegulerFormData) {
     let messageBody = `${defaultOpeningMessage}\n\n`
     messageBody += `Tipe Travel: Reguler Travel\n`
     messageBody += `Nama: ${formData.name}\n`
-    messageBody += `Rute: ${formData.route}\n`
+
+    messageBody += `Titik Penjemputan: ${formData.originLabel}\n`
+    if (formData.pickupLocation) {
+      messageBody += `link: ${generateMapsUrl(formData.pickupLocation.lat, formData.pickupLocation.lng)}\n`
+    }
+
+    messageBody += `Titik Tujuan: ${formData.destLabel}\n`
+    if (formData.dropoffLocation) {
+      messageBody += `link: ${generateMapsUrl(formData.dropoffLocation.lat, formData.dropoffLocation.lng)}\n`
+    }
+
     messageBody += `Tanggal: ${formatDate(formData.date)}\n`
     messageBody += `Jumlah booking: ${formData.totalPessanger} orang`
 

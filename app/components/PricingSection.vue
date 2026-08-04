@@ -411,22 +411,42 @@ const wisataPackages = [
     </div>
     <UModal
       v-model:open="isOpen"
+      scrollable
       :ui="{
-        body: '!p-0'
+        body: '!p-0 ',
+        content: 'max-w-3xl'
       }"
     >
-      <template #content>
+      <template #header>
+        <ModalHeader
+          title="Form Pemesanan Tiket"
+          sub-title="Silakan lengkapi data perjalanan Anda"
+          icon="i-heroicons-ticket"
+          @close-modal="isOpen = false"
+        />
+      </template>
+      <template #body>
         <RegulerPacketForm @close-modal="isOpen = false" />
       </template>
     </UModal>
 
     <UModal
       v-model:open="isCarterDropFormModalOpen"
+      scrollable
       :ui="{
-        body: '!p-0'
+        body: '!p-0',
+        content: 'max-w-3xl'
       }"
     >
-      <template #content>
+      <template #header>
+        <ModalHeader
+          title="Form Booking Carter Drop"
+          sub-title="Silakan lengkapi data perjalanan Anda"
+          icon="i-heroicons-ticket"
+          @close-modal="isCarterDropFormModalOpen = false"
+        />
+      </template>
+      <template #body>
         <CarterDropPackageForm
           @close-modal="isCarterDropFormModalOpen = false"
         />
@@ -435,12 +455,29 @@ const wisataPackages = [
 
     <UModal
       v-model:open="isHolidayFormOpen"
+      scrollable
       :ui="{
         body: '!p-0'
       }"
     >
-      <template #content>
-        <HolidayPackageWrap
+      <template #header>
+        <ModalHeader
+          title="Form Booking Holiday"
+          sub-title="Silakan lengkapi data perjalanan Anda"
+          icon="i-heroicons-ticket"
+          @close-modal="setHolidaytype(false, '')"
+        />
+      </template>
+      <template #body>
+        <!-- <HolidayPackageWrap
+          :holiday-type="holidayType"
+          @close-modal="
+            () => {
+              setHolidaytype(false, '');
+            }
+          "
+        /> -->
+        <HolidayPackageForm
           :holiday-type="holidayType"
           @close-modal="
             () => {
