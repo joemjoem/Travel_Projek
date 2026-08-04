@@ -5,8 +5,8 @@ interface RegulerFormData {
   destLabel: string
   date: string
   totalPessanger: number
-  pickupLocation: { lat: number | null, lng: number | null } | null
-  dropoffLocation: { lat: number | null, lng: number | null } | null
+  pickupLocation: { address: string | null, lat: number | null, lng: number | null } | null
+  dropoffLocation: { address: string | null, lat: number | null, lng: number | null } | null
 }
 
 interface CarterFormData {
@@ -70,11 +70,13 @@ export const useWhatsApp = () => {
 
     messageBody += `Titik Penjemputan: ${formData.originLabel}\n`
     if (formData.pickupLocation) {
+      messageBody += `Alamat: ${formData.pickupLocation.address || '-'}\n`
       messageBody += `link: ${generateMapsUrl(formData.pickupLocation.lat, formData.pickupLocation.lng)}\n`
     }
 
     messageBody += `Titik Tujuan: ${formData.destLabel}\n`
     if (formData.dropoffLocation) {
+      messageBody += `Alamat: ${formData.dropoffLocation.address || '-'}\n`
       messageBody += `link: ${generateMapsUrl(formData.dropoffLocation.lat, formData.dropoffLocation.lng)}\n`
     }
 

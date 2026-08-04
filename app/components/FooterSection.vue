@@ -63,8 +63,8 @@ const travelName = config.public.travelName
           Kantor Pusat
         </h4>
         <p class="text-xs text-slate-500 leading-relaxed">
-          Jl. Raya Siwakerta No. 123,<br>
-          Surabaya, Jawa Timur, Indonesia
+          Jln Raya Ngadri Rt.05 Rw.07,<br>
+          Kec Binangun Kab.Blitar, Jawa Timur, Indonesia
         </p>
         <div
           class="pt-2 flex items-center gap-2 text-xs text-emerald-400 hover:cursor-pointer hover:text-emrald-300"
