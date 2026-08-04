@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { onClickOutside } from '@vueuse/core'
+import type { Map, Marker, LeafletMouseEvent } from 'leaflet'
+
 /**
  * LocationPicker.vue
  *
@@ -40,9 +42,8 @@ const emit = defineEmits<{
 }>()
 
 // ===== INTEGRASI KE SISTEM FORM NUXT UI =====
-// Ini yang sebelumnya HILANG. Tanpa ini, UForm tidak pernah tahu
-// bahwa field pickupLocation/dropoffLocation berubah, jadi error
-// yang sudah tampil tidak akan hilang sampai form di-submit ulang.
+// Tanpa ini, UForm tidak pernah tahu bahwa field pickupLocation/dropoffLocation
+// berubah, jadi error yang sudah tampil tidak akan hilang sampai form di-submit ulang.
 const { emitFormChange } = useFormField()
 
 // ===== STATE =====
@@ -56,9 +57,24 @@ const selectedLocation = ref<LocationResult | null>(props.modelValue)
 
 const mapContainer = ref<HTMLElement | null>(null)
 const searchBoxRef = ref<HTMLElement | null>(null)
-let map: unknown = null
-let marker: unknown = null
-let L: unknown = null // Leaflet instance, di-load client-side only
+// PENTING: pakai shallowRef, BUKAN ref, untuk instance class pihak ketiga
+// (Leaflet Map/Marker). Kalau pakai ref biasa, Vue melewatkan tipe ini lewat
+// UnwrapRef, yang merekonstruksi ulang objeknya dan MENGHILANGKAN properti
+// protected internal Leaflet (_map, _shadow, dst). Akibatnya tipe hasil
+// rekonstruksi tidak lagi cocok secara struktural dengan tipe asli Map/Marker
+// dari @types/leaflet, dan setiap kali map.value / marker.value dioper ke
+// method Leaflet lain (removeLayer, addTo, dst) TypeScript menolaknya.
+// shallowRef tidak melewati UnwrapRef sehingga tipe aslinya tetap utuh, dan
+// sekaligus lebih tepat: kita tidak pernah butuh Vue reaktif ke properti
+// internal Leaflet, hanya perlu tahu kapan .value diganti.
+const map = shallowRef<Map | null>(null)
+const marker = shallowRef<Marker | null>(null)
+
+// Leaflet di-load client-side only (dynamic import), jadi tipenya
+// `typeof import("leaflet") | null`, BUKAN `unknown`. Ini penting:
+// kalau dibiarkan `unknown`, setiap L.marker(...)/L.tileLayer(...)/
+// L.Icon... akan gagal typecheck (TS18046 / TS2571).
+let L: typeof import('leaflet') | null = null
 
 // ===== SYNC DARI PARENT =====
 // Sebelumnya selectedLocation cuma diisi sekali saat mount dari props.modelValue,
@@ -72,9 +88,13 @@ watch(
     if (!newVal && selectedLocation.value) {
       selectedLocation.value = null
       searchQuery.value = ''
-      if (marker && map) {
-        map.removeLayer(marker)
-        marker = null
+
+      // FIX: kondisi lama `if (marker && map)` SELALU true karena `marker`
+      // dan `map` di sini adalah objek ref itu sendiri (selalu truthy),
+      // bukan `.value`-nya. Harus cek `.value` masing-masing, bukan ref-nya.
+      if (marker.value && map.value) {
+        map.value.removeLayer(marker.value)
+        marker.value = null
       }
     } else if (
       newVal
@@ -135,9 +155,8 @@ async function performSearch(query: string) {
     const data = await res.json()
     searchResults.value = data
     showResults.value = true
-  } catch (_err) {
-    // eslint mengaaikan variabel yang tidak dipakai tapi diawali _
-    console.log(_err)
+  } catch (err) {
+    console.error('[LocationPicker] performSearch gagal:', err)
     searchResults.value = []
   } finally {
     isSearching.value = false
@@ -160,23 +179,28 @@ function selectResult(result: {
   searchResults.value = []
 }
 
+// Helper terpusat supaya listener "dragend" tidak diduplikasi 3x
+// (search select, klik peta, init mount) dengan risiko salah satu
+// lupa di-update saat maintenance.
+function attachDragEndListener(m: Marker) {
+  m.on('dragend', async () => {
+    const pos = m.getLatLng()
+    await reverseGeocode(pos.lat, pos.lng)
+  })
+}
+
 // ===== SET LOCATION (dipakai dari search maupun klik peta) =====
 function setLocation(lat: number, lng: number, address: string) {
   selectedLocation.value = { lat, lng, address }
 
-  if (map && L) {
-    map.setView([lat, lng], 15)
+  if (map.value && L) {
+    map.value.setView([lat, lng], 15)
 
-    if (marker) {
-      marker.setLatLng([lat, lng])
+    if (marker.value) {
+      marker.value.setLatLng([lat, lng])
     } else {
-      marker = L.marker([lat, lng], { draggable: true }).addTo(map)
-
-      // User juga bisa drag marker untuk fine-tune posisi
-      marker.on('dragend', async () => {
-        const pos = marker.getLatLng()
-        await reverseGeocode(pos.lat, pos.lng)
-      })
+      marker.value = L.marker([lat, lng], { draggable: true }).addTo(map.value)
+      attachDragEndListener(marker.value)
     }
   }
 
@@ -208,8 +232,8 @@ async function reverseGeocode(lat: number, lng: number) {
     emit('update:modelValue', selectedLocation.value)
     emit('locationSelected', selectedLocation.value)
     emitFormChange()
-  } catch (_err) {
-    console.log(_err)
+  } catch (err) {
+    console.error('[LocationPicker] reverseGeocode gagal:', err)
     // Fallback: tetap simpan koordinat meski nama alamat gagal didapat
     const fallbackAddress = `${lat.toFixed(6)}, ${lng.toFixed(6)}`
     selectedLocation.value = { lat, lng, address: fallbackAddress }
@@ -224,11 +248,18 @@ onMounted(async () => {
   if (typeof window === 'undefined') return
 
   // Dynamic import supaya tidak error saat SSR
-  L = (await import('leaflet')).default
+  const leafletModule = await import('leaflet')
+  L = leafletModule.default
   await import('leaflet/dist/leaflet.css')
 
-  // Fix icon default Leaflet yang sering broken di bundler
-  delete (L.Icon.Default.prototype as unknown)._getIconUrl
+  // Fix icon default Leaflet yang sering broken di bundler.
+  // Cast lewat objek intermediate, bukan ke `unknown` mentah, supaya
+  // masih ada type-checking pada properti yang benar-benar dipakai.
+  const iconDefault = L.Icon.Default.prototype as unknown as {
+    _getIconUrl?: unknown
+  }
+  delete iconDefault._getIconUrl
+
   L.Icon.Default.mergeOptions({
     iconRetinaUrl:
       'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
@@ -238,56 +269,49 @@ onMounted(async () => {
 
   if (!mapContainer.value) return
 
-  const initialCenter = selectedLocation.value
+  const initialCenter: [number, number] = selectedLocation.value
     ? [selectedLocation.value.lat, selectedLocation.value.lng]
     : props.defaultCenter
 
-  map = L.map(mapContainer.value).setView(initialCenter, 13)
+  map.value = L.map(mapContainer.value).setView(initialCenter, 13)
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors',
     maxZoom: 19
-  }).addTo(map)
+  }).addTo(map.value)
 
   // Kalau sudah ada lokasi awal (dari v-model), tampilkan marker
   if (selectedLocation.value) {
-    marker = L.marker(initialCenter as [number, number], {
-      draggable: true
-    }).addTo(map)
-    marker.on('dragend', async () => {
-      const pos = marker.getLatLng()
-      await reverseGeocode(pos.lat, pos.lng)
-    })
+    marker.value = L.marker(initialCenter, { draggable: true }).addTo(
+      map.value
+    )
+    attachDragEndListener(marker.value)
   }
 
   // Klik di peta -> pindah/buat marker + reverse geocode untuk dapat nama alamat
-  map.on('click', async (e: unknown) => {
+  map.value.on('click', async (e: LeafletMouseEvent) => {
     const { lat, lng } = e.latlng
 
-    if (marker) {
-      marker.setLatLng([lat, lng])
-    } else {
-      marker = L.marker([lat, lng], { draggable: true }).addTo(map)
-      marker.on('dragend', async () => {
-        const pos = marker.getLatLng()
-        await reverseGeocode(pos.lat, pos.lng)
-      })
+    if (marker.value) {
+      marker.value.setLatLng([lat, lng])
+    } else if (L && map.value) {
+      marker.value = L.marker([lat, lng], { draggable: true }).addTo(map.value)
+      attachDragEndListener(marker.value)
     }
 
     await reverseGeocode(lat, lng)
   })
 
   // Tutup dropdown hasil search kalau klik di luar search box.
-  // Sebelumnya handleClickOutside dideklarasikan tapi tidak pernah dipasang.
   onClickOutside(searchBoxRef, () => {
     showResults.value = false
   })
 })
 
 onBeforeUnmount(() => {
-  if (map) {
-    map.remove()
-    map = null
+  if (map.value) {
+    map.value.remove()
+    map.value = null
   }
 })
 </script>

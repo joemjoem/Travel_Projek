@@ -319,12 +319,17 @@ const wisataPackages = [
                   <p class="text-sm font-semibold text-slate-800">
                     {{ route.title }}
                   </p>
-                  <UBadge
-                    color="emerald"
-                    variant="solid"
-                  >
-                    Rp {{ route.price }}
-                  </UBadge>
+                  <div class="flex flex-col items-center">
+                    <p class="text-xs text-slate-400">
+                      Mulai dari
+                    </p>
+                    <UBadge
+                      color="emerald"
+                      variant="solid"
+                    >
+                      Rp {{ route.price }}
+                    </UBadge>
+                  </div>
                 </div>
               </div>
             </div>
@@ -382,12 +387,17 @@ const wisataPackages = [
                 <p class="text-sm font-semibold text-slate-800">
                   {{ tier.unit }}
                 </p>
-                <UBadge
-                  color="amber"
-                  variant="solid"
-                >
-                  Rp {{ tier.price }}{{ pkg.suffix }}
-                </UBadge>
+                <div class="flex flex-col items-center">
+                  <p class="text-xs text-slate-400">
+                    Mulai dari
+                  </p>
+                  <UBadge
+                    color="amber"
+                    variant="solid"
+                  >
+                    Rp {{ tier.price }}{{ pkg.suffix }}
+                  </UBadge>
+                </div>
               </div>
             </div>
             <template #footer>

@@ -340,6 +340,10 @@ const schema = z
 async function onSubmit(event) {
   sendCarterBookingForm({
     ...event?.data,
+    name: event.data.name,
+    pickupLabel: event.data.city,
+    route: event.data.route,
+    unitType: event.data.unit,
     pickupLocation: state.pickupLocation,
     dropoffLocation: state.dropoffLocation,
     price: selectedPrice.value

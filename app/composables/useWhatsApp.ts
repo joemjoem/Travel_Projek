@@ -11,9 +11,12 @@ interface RegulerFormData {
 
 interface CarterFormData {
   name: string
+  pickupLabel: string
   route: string
-  unit: string
   date: string
+  unitType: string
+  pickupLocation: { address: string | null, lat: number | null, lng: number | null } | null
+  dropoffLocation: { address: string | null, lat: number | null, lng: number | null } | null
 }
 
 interface HolidayFormData {
@@ -84,8 +87,19 @@ export const useWhatsApp = () => {
     let messageBody = `${defaultOpeningMessage}\n\n`
     messageBody += `Tipe Travel: Carter\n`
     messageBody += `Nama: ${formData.name}\n`
+
+    messageBody += `Titik Penjemputan: ${formData.pickupLabel}\n`
+    if (formData.pickupLocation) {
+      messageBody += `Alamat: ${formData.pickupLocation.address || '-'}\n`
+      messageBody += `link: ${generateMapsUrl(formData.pickupLocation.lat, formData.pickupLocation.lng)}\n`
+    }
+
     messageBody += `Rute: ${formData.route}\n`
-    messageBody += `Unit Kendaraan: ${formData.unit}\n`
+    if (formData.dropoffLocation) {
+      messageBody += `Alamat: ${formData.dropoffLocation.address || '-'}\n`
+      messageBody += `link: ${generateMapsUrl(formData.dropoffLocation.lat, formData.dropoffLocation.lng)}\n`
+    }
+    messageBody += `Unit Kendaraan: ${formData.unitType}\n`
     messageBody += `Tanggal: ${formatDate(formData.date)}\n`
 
     sendMessage(encodeURIComponent(messageBody))
