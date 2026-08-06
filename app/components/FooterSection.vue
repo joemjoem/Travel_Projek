@@ -82,10 +82,7 @@ const travelName = config.public.travelName
     <div
       class="container mx-auto px-4 mt-12 pt-6 border-t border-slate-900 text-center text-slate-600 text-xs"
     >
-      <p>
-        &copy; 2026 PT. SIWAKERTA. All rights reserved. Built with Nuxt 4 &
-        Nuxt/UI.
-      </p>
+      <p>&copy; {{ new Date().getFullYear() }} {{ travelName }}.</p>
     </div>
   </footer>
 </template>

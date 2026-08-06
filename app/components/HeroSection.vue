@@ -11,7 +11,7 @@ const isFormModalOpen = ref(false)
 <template>
   <section
     id="home"
-    class="bg-[#0b1c3d] text-white pt-16 pb-24 md:pb-32 relative overflow-visible"
+    class="bg-[#0b1c3d] text-white pt-4 md:pt-16 pb-4 md:pb-24 md:pb-32 relative overflow-visible"
   >
     <div class="container mx-auto px-4 max-w-7xl">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
