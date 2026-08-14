@@ -2,8 +2,6 @@
 import { useWhatsApp } from '@/composables/useWhatsApp'
 
 const { sendMessageToAdmin } = useWhatsApp()
-const config = useRuntimeConfig()
-const travelName = config.public.travelName
 const menuOpen = ref(false)
 
 const navLinks = [
@@ -25,15 +23,19 @@ onMounted(() => {
   <nav
     class="bg-slate-950 text-white sticky top-0 z-50 border-b border-slate-800"
   >
-    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+    <div
+      class="container mx-auto px-4 py-4 flex items-center justify-between gap-2"
+    >
       <!-- Logo -->
       <div class="flex items-center gap-2">
-        <!-- <div
-          class="w-8 h-8 bg-emerald-500 rounded flex items-center justify-center font-bold text-slate-950"
-        >
-          S
-        </div> -->
-        <span class="font-bold tracking-wider text-lg">{{ travelName }}</span>
+        <NuxtImg
+          src="/image/logo.png"
+          alt="Paket wisata Gunung Bromo dari Malang - Ag Jaya Tour & Travel"
+          width="100"
+          height="35"
+          loading="lazy"
+        />
+        <!-- <span class="font-bold tracking-wider text-lg">{{ travelName }}</span> -->
       </div>
 
       <!-- Desktop Nav -->

@@ -11,17 +11,10 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true
   },
-  app: {
-    head: {
-      htmlAttrs: {
-        lang: 'id' // Sangat penting agar Google tahu target bahasa web travel kamu
-      }
-    }
-  },
   css: ['~/assets/css/main.css'],
   site: {
-    url: 'https://nama-web-travel-kamu.com',
-    name: 'Travel Agent Indonesia',
+    url: 'https://agjayatravel.id',
+    name: 'AG Jaya Tour & Travel',
     trailingSlash: true
   },
   ui: {
