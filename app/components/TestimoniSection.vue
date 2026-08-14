@@ -3,14 +3,14 @@ const config = useRuntimeConfig()
 const travelName = config.public.travelName
 
 const testimonials = [
-  {
-    name: 'Rendy',
-    text: `Sudah beberapa kali pakai ${travelName} untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipin mengecewakan.`
-  },
-  {
-    name: 'Salam Rafi\'i',
-    text: `Sudah beberapa kali pakai ${travelName} untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipin mengecewakan.`
-  },
+  // {
+  //   name: 'Rendy',
+  //   text: `Sudah beberapa kali pakai ${travelName} untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipin mengecewakan.`
+  // },
+  // {
+  //   name: 'Salam Rafi\'i',
+  //   text: `Sudah beberapa kali pakai ${travelName} untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipin mengecewakan.`
+  // },
   {
     name: 'Susilo Adam\'s',
     text: `Sudah beberapa kali pakai ${travelName} untuk perjalanan dari Malang ke Bandara Juanda dan tidak pernah sekalipin mengecewakan.`

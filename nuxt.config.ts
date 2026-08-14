@@ -20,8 +20,8 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/css/main.css'],
   site: {
-    url: 'https://nama-web-travel-kamu.com',
-    name: 'Travel Agent Indonesia',
+    url: 'https://agjayatravel.id',
+    name: 'AG Jaya Tour & Travel',
     trailingSlash: true
   },
   ui: {

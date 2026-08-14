@@ -20,7 +20,14 @@ const travelName = config.public.travelName
           >
             S
           </div> -->
-          <span class="font-bold tracking-wider text-lg">{{ travelName }}</span>
+          <!-- <span class="font-bold tracking-wider text-lg">{{ travelName }}</span> -->
+          <NuxtImg
+            src="/image/logo.png"
+            alt="Paket wisata Gunung Bromo dari Malang - Ag Jaya Tour & Travel"
+            width="200"
+            height="65"
+            loading="lazy"
+          />
         </div>
         <p class="text-xs leading-relaxed text-slate-500">
           Penyedia layanan transportasi dan travel terpercaya di Jawa Timur.
@@ -63,8 +70,8 @@ const travelName = config.public.travelName
           Kantor Pusat
         </h4>
         <p class="text-xs text-slate-500 leading-relaxed">
-          Jln Raya Ngadri Rt.05 Rw.07,<br>
-          Kec Binangun Kab.Blitar, Jawa Timur, Indonesia
+          Jl. Raya Ngadri RT.05 RW.07,<br>
+          Kecamatan Binangun, Kabupaten Blitar, Jawa Timur, Indonesia
         </p>
         <div
           class="pt-2 flex items-center gap-2 text-xs text-emerald-400 hover:cursor-pointer hover:text-emrald-300"
@@ -82,10 +89,7 @@ const travelName = config.public.travelName
     <div
       class="container mx-auto px-4 mt-12 pt-6 border-t border-slate-900 text-center text-slate-600 text-xs"
     >
-      <p>
-        &copy; 2026 PT. SIWAKERTA. All rights reserved. Built with Nuxt 4 &
-        Nuxt/UI.
-      </p>
+      <p>&copy; {{ new Date().getFullYear() }} {{ travelName }}.</p>
     </div>
   </footer>
 </template>

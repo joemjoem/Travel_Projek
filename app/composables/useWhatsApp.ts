@@ -65,22 +65,22 @@ export const useWhatsApp = () => {
 
   function sendRegulerBookingForm(formData: RegulerFormData) {
     let messageBody = `${defaultOpeningMessage}\n\n`
-    messageBody += `Tipe Travel: Reguler Travel\n`
-    messageBody += `Nama: ${formData.name}\n`
+    messageBody += `Tipe Travel: Reguler Travel\n\n`
+    messageBody += `Nama: ${formData.name}\n\n`
 
-    messageBody += `Titik Penjemputan: ${formData.originLabel}\n`
+    messageBody += `Titik Penjemputan: ${formData.originLabel}\n\n`
     if (formData.pickupLocation) {
-      messageBody += `Alamat: ${formData.pickupLocation.address || '-'}\n`
-      messageBody += `link: ${generateMapsUrl(formData.pickupLocation.lat, formData.pickupLocation.lng)}\n`
+      messageBody += `Alamat: ${formData.pickupLocation.address || '-'}\n\n`
+      messageBody += `link: ${generateMapsUrl(formData.pickupLocation.lat, formData.pickupLocation.lng)}\n\n`
     }
 
-    messageBody += `Titik Tujuan: ${formData.destLabel}\n`
+    messageBody += `Titik Tujuan: ${formData.destLabel}\n\n`
     if (formData.dropoffLocation) {
-      messageBody += `Alamat: ${formData.dropoffLocation.address || '-'}\n`
-      messageBody += `link: ${generateMapsUrl(formData.dropoffLocation.lat, formData.dropoffLocation.lng)}\n`
+      messageBody += `Alamat: ${formData.dropoffLocation.address || '-'}\n\n`
+      messageBody += `link: ${generateMapsUrl(formData.dropoffLocation.lat, formData.dropoffLocation.lng)}\n\n`
     }
 
-    messageBody += `Tanggal: ${formatDate(formData.date)}\n`
+    messageBody += `Tanggal: ${formatDate(formData.date)}\n\n`
     messageBody += `Jumlah booking: ${formData.totalPessanger} orang`
 
     sendMessage(encodeURIComponent(messageBody))
@@ -88,39 +88,39 @@ export const useWhatsApp = () => {
 
   function sendCarterBookingForm(formData: CarterFormData) {
     let messageBody = `${defaultOpeningMessage}\n\n`
-    messageBody += `Tipe Travel: Carter\n`
-    messageBody += `Nama: ${formData.name}\n`
+    messageBody += `Tipe Travel: Carter\n\n`
+    messageBody += `Nama: ${formData.name}\n\n`
 
-    messageBody += `Titik Penjemputan: ${formData.pickupLabel}\n`
+    messageBody += `Titik Penjemputan: ${formData.pickupLabel}\n\n`
     if (formData.pickupLocation) {
-      messageBody += `Alamat: ${formData.pickupLocation.address || '-'}\n`
-      messageBody += `link: ${generateMapsUrl(formData.pickupLocation.lat, formData.pickupLocation.lng)}\n`
+      messageBody += `Alamat: ${formData.pickupLocation.address || '-'}\n\n`
+      messageBody += `link: ${generateMapsUrl(formData.pickupLocation.lat, formData.pickupLocation.lng)}\n\n`
     }
 
-    messageBody += `Rute: ${formData.route}\n`
+    messageBody += `Rute: ${formData.route}\n\n`
     if (formData.dropoffLocation) {
-      messageBody += `Alamat: ${formData.dropoffLocation.address || '-'}\n`
-      messageBody += `link: ${generateMapsUrl(formData.dropoffLocation.lat, formData.dropoffLocation.lng)}\n`
+      messageBody += `Alamat: ${formData.dropoffLocation.address || '-'}\n\n`
+      messageBody += `link: ${generateMapsUrl(formData.dropoffLocation.lat, formData.dropoffLocation.lng)}\n\n`
     }
-    messageBody += `Unit Kendaraan: ${formData.unitType}\n`
-    messageBody += `Tanggal: ${formatDate(formData.date)}\n`
+    messageBody += `Unit Kendaraan: ${formData.unitType}\n\n`
+    messageBody += `Tanggal: ${formatDate(formData.date)}\n\n`
 
     sendMessage(encodeURIComponent(messageBody))
   }
 
   function sendHolidayTravelBooking(formData: HolidayFormData) {
     let messageBody = `${defaultOpeningMessage}\n\n`
-    messageBody += `Tipe Travel: Paket Wisata\n`
-    messageBody += `Nama: ${formData.name}\n`
+    messageBody += `Tipe Travel: Paket Wisata\n\n`
+    messageBody += `Nama: ${formData.name}\n\n`
 
     if (formData.pickupLocation) {
-      messageBody += `Alamat Penjemputan: ${formData.pickupLocation.address || '-'}\n`
-      messageBody += `link: ${generateMapsUrl(formData.pickupLocation.lat, formData.pickupLocation.lng)}\n`
+      messageBody += `Alamat Penjemputan: ${formData.pickupLocation.address || '-'}\n\n`
+      messageBody += `link: ${generateMapsUrl(formData.pickupLocation.lat, formData.pickupLocation.lng)}\n\n`
     }
 
-    messageBody += `Tujuan Wisata: ${formData.holidayType}\n`
-    messageBody += `Unit Kendaraan: ${formData.unit}\n`
-    messageBody += `Tanggal: ${formatDate(formData.date)}\n`
+    messageBody += `Tujuan Wisata: ${formData.holidayType}\n\n`
+    messageBody += `Unit Kendaraan: ${formData.unit}\n\n`
+    messageBody += `Tanggal: ${formatDate(formData.date)}\n\n`
 
     sendMessage(encodeURIComponent(messageBody))
   }
